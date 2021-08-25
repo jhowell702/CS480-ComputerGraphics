@@ -1,0 +1,4 @@
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA0/CMakeFiles/rebuild_cache.dir
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA0/CMakeFiles/edit_cache.dir
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA0/CMakeFiles/Tutorial.dir
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA0/CMakeFiles/Tutorial_SUCCESSFUL.dir
