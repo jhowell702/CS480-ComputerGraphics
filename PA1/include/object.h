@@ -17,11 +17,14 @@ class Object
   private:
     glm::mat4 model;
     std::vector<Vertex> Vertices;
+    glm::vec3 location;
+     
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
 
     float angle;
+    float cirAngle;
 };
 
 #endif /* OBJECT_H */

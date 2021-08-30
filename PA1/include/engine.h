@@ -13,7 +13,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize();
+    bool Initialize(std::string* shadNames);
     void Run();
     void Keyboard();
     unsigned int getDT();
@@ -28,6 +28,8 @@ class Engine
     bool m_FULLSCREEN;
     SDL_Event m_event;
 
+    std::string vertShadName;
+    std::string fragShadName;
     Graphics *m_graphics;
     unsigned int m_DT;
     long long m_currentTimeMillis;

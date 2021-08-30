@@ -62,6 +62,10 @@ Object::Object()
 
   angle = 0.0f;
 
+  cirAngle = 0.0f;
+
+  location = glm::vec3(0,0,0);
+
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
   glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * Vertices.size(), &Vertices[0], GL_STATIC_DRAW);
@@ -79,8 +83,30 @@ Object::~Object()
 
 void Object::Update(unsigned int dt)
 {
-  angle += dt * M_PI/1000;
-  model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
+
+	//declare x and z coordinate variables
+
+  	float x;
+  	float z;
+
+	//calculate translation matrix
+
+  	cirAngle += .025;
+
+  	if(cirAngle > 350){cirAngle = 0;}
+
+  	x = 5 * (glm::cos(cirAngle));
+  	z = 5 * (glm::sin(cirAngle));
+
+  	location = glm::vec3(x,0,z);
+  
+	//calculate rotation matrix
+
+  	angle += dt * M_PI/1000;
+  	glm::mat4 rotMat = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 1.0));
+
+  	model = glm::translate(location) * rotMat;
+
 }
 
 glm::mat4 Object::GetModel()
