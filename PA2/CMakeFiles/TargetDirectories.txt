@@ -1,0 +1,4 @@
+/home/jhowell/Desktop/PA2/CMakeFiles/rebuild_cache.dir
+/home/jhowell/Desktop/PA2/CMakeFiles/edit_cache.dir
+/home/jhowell/Desktop/PA2/CMakeFiles/Tutorial.dir
+/home/jhowell/Desktop/PA2/CMakeFiles/Tutorial_SUCCESSFUL.dir
