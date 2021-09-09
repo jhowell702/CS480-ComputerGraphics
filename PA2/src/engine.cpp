@@ -96,24 +96,28 @@ void Engine::Run()
 	m_graphics->Render();
 
 
+	//bool to see if we clicked a button this frame
 	bool buttonClicked = false;
 
-
+	//imgui init stuff
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 
-
+	//start menu
 	ImGui::Begin("Controls");
 
+	//set menu pos
         ImGui::SetWindowPos(ImVec2(80,30), true);
 	ImGui::SetWindowSize(ImVec2(575,175), true);
 
+	//menu controls
 	ImGui::Text("To control the cube:");               // Display some text (you can
 	ImGui::Text("Press A or click anywhere to reverse the direction and rotation of the cube");
 	ImGui::Text("Click the buttons below to reverse them individually:");
 
+	//rotation and spin stats
 	ImGui::Text("Currently Rotating: ");
 	if(m_graphics->GetObject()->getDir()){
 		ImGui::SameLine();
@@ -132,7 +136,7 @@ void Engine::Run()
 		ImGui::Text("Counterclockwise");
 	}
 
-	//buttons to flip
+	//buttons to flip, get current direction flag, and reverse it
 
 	if(ImGui::Button("Reverse Rotation")){
 		buttonClicked = true;
@@ -143,17 +147,9 @@ void Engine::Run()
 		m_graphics->GetObject()->setSpin(!m_graphics->GetObject()->getSpin());
 	}
 
-	/*
-	ImGui::Text("Keys down:");
-	for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); i++){
-	if (ImGui::IsKeyDown(i)){
-		ImGui::SameLine();
-		ImGui::Text("%d (0x%X) (%.02f secs)", i, i, io.KeysDownDuration[i]);
-		}
-	}
-	*/
 
-	//if any mouse button is down, flip
+	//if any mouse button is down, flip both rotation and spin direction
+	//but only if a button has not already been clicked to avoid flipping twice
 
 	for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++){
 		if(ImGui::IsMouseReleased(i) && buttonClicked == false){
@@ -162,17 +158,20 @@ void Engine::Run()
 		}
 	}
 
+	//flip both rotation and spin direction if the A key is pressed
+
 	if(ImGui::IsKeyReleased(4)){
 		m_graphics->GetObject()->setDir(!m_graphics->GetObject()->getDir());
 		m_graphics->GetObject()->setSpin(!m_graphics->GetObject()->getSpin());
 	}
 
+	//end imgui window and render to buffer as well
 
     ImGui::End();
 
     ImGui::Render();
 
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
 

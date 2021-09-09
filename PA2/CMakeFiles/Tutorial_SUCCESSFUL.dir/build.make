@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jhowell/Desktop/PA2
+CMAKE_SOURCE_DIR = /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jhowell/Desktop/PA2
+CMAKE_BINARY_DIR = /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2
 
 # Utility rule file for Tutorial_SUCCESSFUL.
 
@@ -58,7 +58,7 @@ CMakeFiles/Tutorial_SUCCESSFUL: Tutorial
 	/usr/bin/cmake -E echo =====================
 	/usr/bin/cmake -E echo \ \ Compile\ complete!
 	/usr/bin/cmake -E echo =====================
-	/usr/bin/cmake -E echo /home/jhowell/Desktop/PA2
+	/usr/bin/cmake -E echo /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2
 
 Tutorial_SUCCESSFUL: CMakeFiles/Tutorial_SUCCESSFUL
 Tutorial_SUCCESSFUL: CMakeFiles/Tutorial_SUCCESSFUL.dir/build.make
@@ -75,6 +75,6 @@ CMakeFiles/Tutorial_SUCCESSFUL.dir/clean:
 .PHONY : CMakeFiles/Tutorial_SUCCESSFUL.dir/clean
 
 CMakeFiles/Tutorial_SUCCESSFUL.dir/depend:
-	cd /home/jhowell/Desktop/PA2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jhowell/Desktop/PA2 /home/jhowell/Desktop/PA2 /home/jhowell/Desktop/PA2 /home/jhowell/Desktop/PA2 /home/jhowell/Desktop/PA2/CMakeFiles/Tutorial_SUCCESSFUL.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2/CMakeFiles/Tutorial_SUCCESSFUL.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Tutorial_SUCCESSFUL.dir/depend
 

@@ -1,4 +1,4 @@
-# Install script for directory: /home/jhowell/Desktop/PA2
+# Install script for directory: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jhowell/Desktop/PA2/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jhowell/Code/CS480-Workspace/cs480Howell/PA2/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

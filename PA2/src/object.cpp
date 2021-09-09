@@ -108,7 +108,7 @@ void Object::Update(unsigned int dt)
   	float x;
   	float z;
 
-	//calculate translation matrix
+	//update angle based on rotation direction flag, positive for clockwise, negative for counterclockwise
 
 	if(dirFlag){
   		cirAngle += dt * M_PI/1000;
@@ -116,24 +116,29 @@ void Object::Update(unsigned int dt)
 		cirAngle -= dt * M_PI/1000;
 	}
 
-  	if(cirAngle > 360){cirAngle = 0;}
-	if(cirAngle < 0){cirAngle = 360;}
+	//hard coded radius of rotation of 5, * cos and sin to find x and z position
 
   	x = 5 * (glm::cos(cirAngle));
   	z = 5 * (glm::sin(cirAngle));
 
+	//current location vector stored in object instance, update with new coords
+
   	location = glm::vec3(x,0,z);
   
-	//calculate rotation matrix
+	//update spin angle based on spin direction flag
 	if(spinFlag){
   		angle += dt * M_PI/1000;
 	}else{
   		angle -= dt * M_PI/1000;
 	}
 
+	//create new rotation matrix using spin angle
+
   	glm::mat4 rotMat = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
 
-  	model = glm::translate(location) * rotMat;
+	//rotate the model for spin, then translate to x,z coords for rotation
+
+  	model =  glm::translate(location) * rotMat;
 
 }
 

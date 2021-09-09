@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=gnu++11
 
 CXX_DEFINES = -DUNIX
 
-CXX_INCLUDES = -I/home/jhowell/Desktop/PA2/include -I/usr/include/SDL2 
+CXX_INCLUDES = -I/home/jhowell/Code/CS480-Workspace/cs480Howell/PA2/include -I/usr/include/SDL2 
 
