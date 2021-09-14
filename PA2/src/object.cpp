@@ -60,14 +60,20 @@ Object::Object()
     Indices[i] = Indices[i] - 1;
   }
 
-  angle = 0.0f;
+  rotationAngle = 0.0f;
+  spinAngle = 0.0f;
 
-  cirAngle = 0.0f;
+  rotationSpeed = 1500;
+  spinSpeed = 1000;
+
+  scale = glm::vec3(1,1,1);
 
   dirFlag = true;
   spinFlag = true;
 
-  location = glm::vec3(0,0,0);
+  location = glm::mat4(1.0f);
+
+  parent = NULL;
 
   glGenBuffers(1, &VB);
   glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -100,45 +106,45 @@ void Object::setSpin(bool newState){
 	spinFlag = newState;
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, int radius)
 {
 
-	//declare x and z coordinate variables
-
-  	float x;
-  	float z;
-
-	//update angle based on rotation direction flag, positive for clockwise, negative for counterclockwise
+	//update rotation and spin angles depending on boolean 
 
 	if(dirFlag){
-  		cirAngle += dt * M_PI/1000;
+  		rotationAngle += dt * M_PI/rotationSpeed;
 	}else{
-		cirAngle -= dt * M_PI/1000;
-	}
+		rotationAngle -= dt * M_PI/rotationSpeed;
+	}	
 
-	//hard coded radius of rotation of 5, * cos and sin to find x and z position
-
-  	x = 5 * (glm::cos(cirAngle));
-  	z = 5 * (glm::sin(cirAngle));
-
-	//current location vector stored in object instance, update with new coords
-
-  	location = glm::vec3(x,0,z);
-  
-	//update spin angle based on spin direction flag
 	if(spinFlag){
-  		angle += dt * M_PI/1000;
+  		spinAngle += dt * M_PI/spinSpeed;
 	}else{
-  		angle -= dt * M_PI/1000;
+  		spinAngle -= dt * M_PI/spinSpeed;
 	}
 
-	//create new rotation matrix using spin angle
+	//translate model location based on x and z coords as calculated to be on circle
 
-  	glm::mat4 rotMat = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
+	location = glm::translate(glm::vec3(radius * (glm::cos(rotationAngle)),
+						 0,
+						radius * (glm::sin(rotationAngle))));
 
-	//rotate the model for spin, then translate to x,z coords for rotation
+	//if target has a parent, then matrix multiply rotation offset by parent's location matrix
+	//do nothing if parent pointer is NULL	
 
-  	model =  glm::translate(location) * rotMat;
+        if(parent == NULL){
+		//do nothing
+	}else{
+		location = location * parent->GetLocation();
+	}
+
+
+	//rotate model matrix at transformation location for spin
+        model = glm::rotate(location, (spinAngle), glm::vec3(0.0, 1.0, 0.0));
+
+
+	//scale model matrix using vec3 scalar, default set to 1 for no scaling at all
+	model = glm::scale(model, scale);
 
 }
 
@@ -146,6 +152,35 @@ glm::mat4 Object::GetModel()
 {
   return model;
 }
+
+glm::mat4 Object::GetLocation(){
+	return location;
+}
+
+void Object::SetScale(glm::vec3 newScale){
+	scale = newScale;
+}
+
+void Object::SetParent(Object* target){
+	parent = target;
+}
+
+void Object::IncrementRotationSpeed(int change){
+	rotationSpeed += change;
+}
+
+int Object::GetRotationSpeed(){
+	return rotationSpeed;
+}
+
+void Object::IncrementSpinSpeed(int change){
+	spinSpeed += change;
+}
+
+int Object::GetSpinSpeed(){
+	return spinSpeed;
+}
+
 
 void Object::Render()
 {

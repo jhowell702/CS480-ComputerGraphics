@@ -50,7 +50,7 @@ bool Engine::Initialize(std::string * shadNames)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
@@ -109,42 +109,85 @@ void Engine::Run()
 	ImGui::Begin("Controls");
 
 	//set menu pos
-        ImGui::SetWindowPos(ImVec2(80,30), true);
-	ImGui::SetWindowSize(ImVec2(575,175), true);
+        ImGui::SetWindowPos(ImVec2(113,15), true);
+	ImGui::SetWindowSize(ImVec2(575,200), true);
 
 	//menu controls
-	ImGui::Text("To control the cube:");               // Display some text (you can
-	ImGui::Text("Press A or click anywhere to reverse the direction and rotation of the cube");
-	ImGui::Text("Click the buttons below to reverse them individually:");
+	ImGui::Text("Keyboard Controls:");          
+	ImGui::Text("A Button/Mouse Buttons: Reverse direction and spin of cube");
+	ImGui::Text("Left/Right Arrow Keys : Change rotation direction");
+	ImGui::Text("Up/Down Arrow Keys:   : Change rotation and spin speed");
 
-	//rotation and spin stats
+	//display current rotation direction
 	ImGui::Text("Currently Rotating: ");
-	if(m_graphics->GetObject()->getDir()){
+	if(m_graphics->GetPlanet()->getDir()){
 		ImGui::SameLine();
-		ImGui::Text("Clockwise");
+		ImGui::Text("Clockwise        ");
 	}else{
 		ImGui::SameLine();
-		ImGui::Text("Counterclockwise");
+		ImGui::Text("Counterclockwise ");
 	}
 
+	//on the same line show rotation speed with two buttons to increment and decrement
+	ImGui::SameLine();
+	ImGui::Text("Rotation Speed: ");
+	ImGui::SameLine();
+	if(ImGui::Button(" - ##Rot")){
+		buttonClicked = true;
+		m_graphics->GetPlanet()->IncrementRotationSpeed(100);
+	}
+
+	//we are changing what the angle is by dividing, so divide here by 100000 for user readability
+	ImGui::SameLine();
+	ImGui::Text(" %d ", 100000/(m_graphics->GetPlanet()->GetRotationSpeed()));
+
+	ImGui::SameLine();
+	if(ImGui::Button(" + ##Rot")){
+		buttonClicked = true;
+		m_graphics->GetPlanet()->IncrementRotationSpeed(-100);
+	}
+
+
+	//display current spinning direction
 	ImGui::Text("Currently Spinning: ");
-	if(m_graphics->GetObject()->getSpin()){
+	if(m_graphics->GetPlanet()->getSpin()){
 		ImGui::SameLine();
-		ImGui::Text("Clockwise");
+		ImGui::Text("Clockwise        ");
 	}else{
 		ImGui::SameLine();
-		ImGui::Text("Counterclockwise");
+		ImGui::Text("Counterclockwise ");
+	}
+
+	//show spin speed with two buttons to increment and decrement spin speed
+	ImGui::SameLine();
+	ImGui::Text("Spin Speed:     ");
+	ImGui::SameLine();
+	if(ImGui::Button(" - ##Spin")){
+		buttonClicked = true;
+		m_graphics->GetPlanet()->IncrementSpinSpeed(100);
+	}
+
+	//we are changing what the angle is by dividing, so divide here by 100000 for user readability
+	ImGui::SameLine();
+	ImGui::Text(" %d ", 100000/(m_graphics->GetPlanet()->GetSpinSpeed()));
+
+	ImGui::SameLine();
+	if(ImGui::Button(" + ##Spin")){
+		buttonClicked = true;
+		m_graphics->GetPlanet()->IncrementSpinSpeed(-100);
 	}
 
 	//buttons to flip, get current direction flag, and reverse it
+	ImGui::Text("Click the buttons below to reverse them individually:");
 
 	if(ImGui::Button("Reverse Rotation")){
 		buttonClicked = true;
-		m_graphics->GetObject()->setDir(!m_graphics->GetObject()->getDir());
+		m_graphics->GetPlanet()->setDir(!m_graphics->GetPlanet()->getDir());
 	}
+	ImGui::SameLine();
 	if(ImGui::Button("Reverse Spin")){
 		buttonClicked = true;
-		m_graphics->GetObject()->setSpin(!m_graphics->GetObject()->getSpin());
+		m_graphics->GetPlanet()->setSpin(!m_graphics->GetPlanet()->getSpin());
 	}
 
 
@@ -153,16 +196,36 @@ void Engine::Run()
 
 	for (int i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++){
 		if(ImGui::IsMouseReleased(i) && buttonClicked == false){
-			m_graphics->GetObject()->setDir(!m_graphics->GetObject()->getDir());
-			m_graphics->GetObject()->setSpin(!m_graphics->GetObject()->getSpin());
+			m_graphics->GetPlanet()->setDir(!m_graphics->GetPlanet()->getDir());
+			m_graphics->GetPlanet()->setSpin(!m_graphics->GetPlanet()->getSpin());
 		}
 	}
 
 	//flip both rotation and spin direction if the A key is pressed
 
 	if(ImGui::IsKeyReleased(4)){
-		m_graphics->GetObject()->setDir(!m_graphics->GetObject()->getDir());
-		m_graphics->GetObject()->setSpin(!m_graphics->GetObject()->getSpin());
+		m_graphics->GetPlanet()->setDir(!m_graphics->GetPlanet()->getDir());
+		m_graphics->GetPlanet()->setSpin(!m_graphics->GetPlanet()->getSpin());
+	}
+
+	//if right arrow, set direction to be clockwise
+	if(ImGui::IsKeyReleased(79)){
+		m_graphics->GetPlanet()->setDir(1);
+	}
+
+	//if left arrow, set direction to be counterclockwise
+	if(ImGui::IsKeyReleased(80)){
+		m_graphics->GetPlanet()->setDir(0);	
+	}
+
+	//if up arrow is pressed, increment rotation speed
+	if(ImGui::IsKeyReleased(81)){
+		m_graphics->GetPlanet()->IncrementRotationSpeed(100);
+	}
+
+	//if up arrow is pressed, decrement rotation speed
+	if(ImGui::IsKeyReleased(82)){
+		m_graphics->GetPlanet()->IncrementRotationSpeed(-100);
 	}
 
 	//end imgui window and render to buffer as well

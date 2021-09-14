@@ -18,7 +18,8 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
 
-    Object* GetObject();
+    Object* GetPlanet();
+    Object* GetMoon();
 
   private:
     std::string ErrorString(GLenum error);
@@ -31,6 +32,9 @@ class Graphics
     GLint m_modelMatrix;
 
     Object *m_cube;
+
+    Object *m_planet;
+    Object *m_moon;
 };
 
 #endif /* GRAPHICS_H */

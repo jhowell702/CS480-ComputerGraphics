@@ -44,8 +44,15 @@ bool Graphics::Initialize(int width, int height, std::string* shadNames)
     return false;
   }
 
-  // Create the object
-  m_cube = new Object();
+  // Create the planet and moon objects
+  m_planet = new Object();
+  m_moon = new Object();
+
+  // manually set moon's parent to be planet
+  m_moon->SetParent(m_planet);
+
+  // manually set moon's scalar vector to be .5 in all dimensions
+  m_moon->SetScale(glm::vec3(.5, .5, .5));
 
   // Set up the shaders
   m_shader = new Shader();
@@ -109,12 +116,18 @@ bool Graphics::Initialize(int width, int height, std::string* shadNames)
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-  m_cube->Update(dt);
+  // Update the object, passing in dt and the radius of orbit from origin
+  m_planet->Update(dt, 5);
+  m_moon->Update(dt, 3);
+
 }
 
-Object* Graphics::GetObject(){
-	return m_cube;
+Object* Graphics::GetPlanet(){
+	return m_planet;
+}
+
+Object* Graphics::GetMoon(){
+	return m_moon;
 }
 
 void Graphics::Render()
@@ -131,8 +144,12 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the object
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_cube->GetModel()));
-  m_cube->Render();
+
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_planet->GetModel()));
+  m_planet->Render();
+
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_moon->GetModel()));
+  m_moon->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
