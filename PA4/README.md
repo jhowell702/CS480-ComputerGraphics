@@ -1,4 +1,4 @@
-# PA2: Spinning Cube
+# PA4: Spinning Cube
 
 ## CMake and Building
 
@@ -8,7 +8,7 @@ To build this project, run in the PA4/build folder:
 cmake ..
 ```
 
-Then call make:
+Then call the Makefile with:
 
 ```bash
 make
@@ -16,7 +16,7 @@ make
 
 ## Running
 
-To run this project after building, run the following command in the PA4/build folder
+To run this project after building, run the following command in the PA4/build folder:
 
 ```bash
 ./Tutorial -v vert.glsl -f frag.glsl -m {replace_me_with_model_filename.obj}
@@ -31,15 +31,13 @@ Models should be placed in the models folder in the PA4 project folder.
 
 At runtime run the program using the flag -m followed by the file name of the model to be loaded.
 
-By default, I've included bunny.obj, teapot.obj, and box.obj in the models folder, and can be safely passed to command line.
+By default, I've included bunny.obj, teapot.obj, and box.obj in the models folder, and can be safely passed to command line as parameters.
 
 ## Shaders
 
 Shader flags:
 -v: define the filename for vertex shader
+
 -f: define the filename for fragment shader
 
 The shader files are default named vert.glsl and frag.glsl, and are stored in the shaders folder.
-
-
-
