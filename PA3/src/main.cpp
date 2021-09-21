@@ -18,8 +18,6 @@ int main(int argc, char **argv)
 	std::cout << "Current shader files are vert.glsl and frag.glsl" << std::endl;
 	return 0;
 
-  }else{
-
   }
 
   // Start an engine and run it then cleanup after
