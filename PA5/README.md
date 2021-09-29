@@ -32,11 +32,13 @@ See below for shader and model instructions
 Do not run executable from outside of PA4/build folder, file paths to model and shader folder are hard coded in!
 
 ## Models
+Assimp file loading code is contained entirely in object.cpp, all called in the nondefault constructor Object(string fileName).
+
 Models should be placed in the models folder in the PA4 project folder.
 
 At runtime run the program using the flag -m followed by the file name of the model to be loaded.
 
-By default, I've included bunny.obj, teapot.obj, and box.obj in the models folder, and can be safely passed to command line as parameters.
+By default, I've included bunny.obj, teapot.obj, dragon.obj, and box.obj in the models folder, and can be safely passed to command line as parameters.
 
 ## Shaders
 

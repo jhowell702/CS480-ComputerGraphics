@@ -46,50 +46,64 @@ Object::Object(std::string fileName)
 
 ////////////////////////////////////////////////////////////////////////
 
+	//create two glm vec3's to convert from assimp vec3's
 	glm::vec3 tempVec;
 	glm::vec3 tempColor;
 
+	//create assimp importer object, and read file from models folder
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile("../models/" + fileName,aiProcess_Triangulate);
  
+	//pull the first (and only) mesh from the scene object created by assimp
 	aiMesh *mesh = scene->mMeshes[0];
 
+	//for gui purposes, check if the mesh has vertex colors
 	if(mesh->HasVertexColors(0)){
 		hasColor = true;
 	}else{
 		hasColor = false;
 	}
 
-	numVerts = mesh->mNumFaces*3;
- 
+	//for each vertice	 
 	for(unsigned int x = 0; x < mesh->mNumVertices; x++){	
 
-		aiVector3D pos = mesh->mVertices[x];
+		//if mesh has vertex colors
 		if(mesh->HasVertexColors(0)){
+			//save color rgbt to col
 			aiColor4t<float> col = mesh->mColors[0][x];
+
+			//save rgb from col to glm vec3 
 			tempColor = {col.r, col.g, col.b};	
 		}else{
+			//if mesh doesn't have vertex colors, set color to be white
 			tempColor = {1.0f, 1.0f, 1.0f};
 		}
 
+		//pull vertex xyz to assimp vec3
+		aiVector3D pos = mesh->mVertices[x];
+
+		//save xyz components to glm vec3
 		tempVec = {pos.x, pos.y, pos.z};
 
+		//create vertex to be pushed onto Vertices
 		Vertex tempVertex = {tempVec, tempColor};
 
-		//push_back onto Vertices each vertex
+		//push_back onto Vertices
 		Vertices.push_back(tempVertex);
 	}
  
+	//for each face
 	for(unsigned int i=0;i<mesh->mNumFaces;i++){
+		//pull face from mesh
 		const aiFace& face = mesh->mFaces[i];
 
-		int indicesSize = sizeof(face.mIndices);
-			
+		//pull the first three components of face's mIndices, which are vertex indices			
 		Indices.push_back(face.mIndices[0]);
 		Indices.push_back(face.mIndices[1]);
 		Indices.push_back(face.mIndices[2]);
 	}
 
+	//call generic init
 	Init();
 }
 
