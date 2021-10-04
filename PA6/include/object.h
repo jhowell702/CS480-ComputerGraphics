@@ -14,8 +14,12 @@ class Object
     void Init();
     void Update(unsigned int dt, int radius);
     void Render();
+    void RenderTextures();
 
-	void loadDefaultCube();
+    void loadTextures();
+
+
+    void loadDefaultCube();
 
     void setDir(bool newState);
     void setSpin(bool newState);
@@ -51,6 +55,9 @@ class Object
     std::vector<unsigned int> Indices;
     GLuint VB;
     GLuint IB;
+    GLuint TB;
+
+    std::vector<float> TextureCoords;
     
     Object* parent;
 
@@ -63,6 +70,7 @@ class Object
     int spinSpeed;
     int rotationSpeed;
 
+    unsigned int texture;
  
     int numVerts;
 

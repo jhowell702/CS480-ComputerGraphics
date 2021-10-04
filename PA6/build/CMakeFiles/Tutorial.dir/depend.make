@@ -340,6 +340,7 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/ImGui/imgui_impl_sdl.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/graphics_headers.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/imconfig.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/object.h
+CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/stb_image.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../src/object.cpp
 CMakeFiles/Tutorial.dir/src/object.cpp.o: /usr/include/SDL2/SDL.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: /usr/include/SDL2/SDL_assert.h

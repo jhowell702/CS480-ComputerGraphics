@@ -1,4 +1,8 @@
 #include "object.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include <fstream>
 #include <sstream>
 
@@ -13,20 +17,21 @@ Object::Object()
 
 void Object::Init(){
 
-	rotationAngle = 0.0f;
-	spinAngle = 0.0f;
+    rotationAngle = 0.0f;
+    spinAngle = 0.0f;
 
-	rotationSpeed = 1500;
-	spinSpeed = 1000;
+    rotationSpeed = 1500;
+    spinSpeed = 1000;
 
-	scale = glm::vec3(1,1,1);
+    scale = glm::vec3(1,1,1);
 
-	dirFlag = true;
-	spinFlag = true;
+    dirFlag = true;
+    spinFlag = true;
 
-	location = glm::mat4(1.0f);
+    location = glm::mat4(1.0f);
 
-	parent = NULL;
+    parent = NULL;
+
 
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -35,6 +40,10 @@ void Object::Init(){
     glGenBuffers(1, &IB);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+   glGenBuffers(1, &TB);
+   glBindBuffer(GL_ARRAY_BUFFER, TB);
+   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * TextureCoords.size(), &TextureCoords[0], GL_STATIC_DRAW);
 
 }
 
@@ -60,38 +69,31 @@ Object::Object(std::string fileName)
 		hasColor = false;
 	}
 
-	numVerts = mesh->mNumFaces*3;
- 
-	for(unsigned int x = 0; x < mesh->mNumVertices; x++){	
 
-		aiVector3D pos = mesh->mVertices[x];
-		if(mesh->HasVertexColors(0)){
-			aiColor4t<float> col = mesh->mColors[0][x];
-			tempColor = {col.r, col.g, col.b};	
-		}else{
-			tempColor = {1.0f, 1.0f, 1.0f};
-		}
-
-		tempVec = {pos.x, pos.y, pos.z};
-
-		Vertex tempVertex = {tempVec, tempColor};
-
-		//push_back onto Vertices each vertex
-		Vertices.push_back(tempVertex);
-	}
- 
 	for(unsigned int i=0;i<mesh->mNumFaces;i++){
 		const aiFace& face = mesh->mFaces[i];
-
-		int indicesSize = sizeof(face.mIndices);
-			
 		
+		for(int c = 0; c < face.mNumIndices; c++){
+			Indices.push_back(face.mIndices[c]);
+		}			
 
-		Indices.push_back(face.mIndices[0]);
-		Indices.push_back(face.mIndices[1]);
-		Indices.push_back(face.mIndices[2]);
+		for(int j=0;j<3;j++){
+
+			aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[j]];
+			TextureCoords.push_back(uv.x);
+			TextureCoords.push_back(uv.y);
+	
+			aiVector3D pos = mesh->mVertices[face.mIndices[j]];
+			tempColor = {1.0f, 1.0f, 1.0f};
+			tempVec = {pos.x, pos.y, pos.z};
+			Vertex tempVertex = {tempVec, tempColor};
+			//push_back onto Vertices each vertex
+			Vertices.push_back(tempVertex);	
+		}
 	}
 
+
+	loadTextures();
 	Init();
 }
 
@@ -248,5 +250,51 @@ void Object::Render()
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
+}
+
+void Object::loadTextures(){
+
+	int width, height, nrChannels;
+	unsigned char *data = stbi_load("../models/checker.jpg", &width, &height, &nrChannels, 0); 
+
+	std::cout << nrChannels;
+
+	unsigned int texture;
+	glGenTextures(1, &texture);
+
+	glBindTexture(GL_TEXTURE_2D, texture); 
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(data);
+
+}
+
+void Object::RenderTextures()
+{
+
+
+  glEnableVertexAttribArray(0);
+  glEnableVertexAttribArray(1);
+  glEnableVertexAttribArray(2);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VB);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
+
+
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
+
+
+  glBindBuffer(GL_ARRAY_BUFFER, TB);
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float), 0);
+
+  glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glDisableVertexAttribArray(2);
+
 }
 

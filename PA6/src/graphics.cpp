@@ -138,7 +138,7 @@ void Graphics::Render()
   // Render the object
 
   glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_object->GetModel()));
-  m_object->Render();
+  m_object->RenderTextures();
 
   // Get any errors from OpenGL
   auto error = glGetError();
