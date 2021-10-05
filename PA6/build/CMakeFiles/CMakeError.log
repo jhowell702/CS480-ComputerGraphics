@@ -446,3 +446,168 @@ Makefile:126: recipe for target 'cmTC_cc9bf/fast' failed
 make: *** [cmTC_cc9bf/fast] Error 2
 
 
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d68b3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d68b3.dir/build.make CMakeFiles/cmTC_d68b3.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d68b3.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_d68b3.dir/CheckSymbolExists.c.o   -c /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_d68b3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d68b3.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_d68b3.dir/CheckSymbolExists.c.o  -o cmTC_d68b3 
+CMakeFiles/cmTC_d68b3.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d68b3.dir/build.make:97: recipe for target 'cmTC_d68b3' failed
+make[1]: *** [cmTC_d68b3] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d68b3/fast' failed
+make: *** [cmTC_d68b3/fast] Error 2
+
+File /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8e17e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8e17e.dir/build.make CMakeFiles/cmTC_8e17e.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8e17e.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_8e17e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_8e17e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8e17e.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_8e17e.dir/CheckFunctionExists.c.o  -o cmTC_8e17e -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_8e17e.dir/build.make:97: recipe for target 'cmTC_8e17e' failed
+make[1]: *** [cmTC_8e17e] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_8e17e/fast' failed
+make: *** [cmTC_8e17e/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b29ca/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b29ca.dir/build.make CMakeFiles/cmTC_b29ca.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b29ca.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_b29ca.dir/CheckSymbolExists.c.o   -c /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_b29ca
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b29ca.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_b29ca.dir/CheckSymbolExists.c.o  -o cmTC_b29ca 
+CMakeFiles/cmTC_b29ca.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_b29ca.dir/build.make:97: recipe for target 'cmTC_b29ca' failed
+make[1]: *** [cmTC_b29ca] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_b29ca/fast' failed
+make: *** [cmTC_b29ca/fast] Error 2
+
+File /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ff369/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ff369.dir/build.make CMakeFiles/cmTC_ff369.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ff369.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ff369.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ff369
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff369.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_ff369.dir/CheckFunctionExists.c.o  -o cmTC_ff369 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_ff369.dir/build.make:97: recipe for target 'cmTC_ff369' failed
+make[1]: *** [cmTC_ff369] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6-test/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_ff369/fast' failed
+make: *** [cmTC_ff369/fast] Error 2
+
+
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_12902/fast"
+/usr/bin/make -f CMakeFiles/cmTC_12902.dir/build.make CMakeFiles/cmTC_12902.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_12902.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_12902.dir/CheckSymbolExists.c.o   -c /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_12902
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_12902.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_12902.dir/CheckSymbolExists.c.o  -o cmTC_12902 
+CMakeFiles/cmTC_12902.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_12902.dir/build.make:97: recipe for target 'cmTC_12902' failed
+make[1]: *** [cmTC_12902] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_12902/fast' failed
+make: *** [cmTC_12902/fast] Error 2
+
+File /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_29646/fast"
+/usr/bin/make -f CMakeFiles/cmTC_29646.dir/build.make CMakeFiles/cmTC_29646.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_29646.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_29646.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_29646
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_29646.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_29646.dir/CheckFunctionExists.c.o  -o cmTC_29646 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_29646.dir/build.make:97: recipe for target 'cmTC_29646' failed
+make[1]: *** [cmTC_29646] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_29646/fast' failed
+make: *** [cmTC_29646/fast] Error 2
+
+

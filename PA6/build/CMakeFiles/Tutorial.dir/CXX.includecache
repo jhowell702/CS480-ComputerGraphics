@@ -233,6 +233,8 @@ engine.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/graphics.cpp
 graphics.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/graphics.h
+stb_image.h
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/stb_image.h
 
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/imgui.cpp
 imgui.h
@@ -351,8 +353,6 @@ commandLineLoader.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/object.cpp
 object.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/object.h
-stb_image.h
-/home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/stb_image.h
 fstream
 -
 sstream

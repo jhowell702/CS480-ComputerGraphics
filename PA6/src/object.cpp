@@ -1,7 +1,7 @@
 #include "object.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+
+
 
 #include <fstream>
 #include <sstream>
@@ -41,6 +41,7 @@ void Object::Init(){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
 
+   //repeat and make texture coord buffer for use in shaders
    glGenBuffers(1, &TB);
    glBindBuffer(GL_ARRAY_BUFFER, TB);
    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * TextureCoords.size(), &TextureCoords[0], GL_STATIC_DRAW);
@@ -48,52 +49,49 @@ void Object::Init(){
 }
 
 //custom constructor that takes a string file name to load a target object
-Object::Object(std::string fileName)
+Object::Object(aiMesh *mesh)
 {
-
-	name = fileName;
 
 ////////////////////////////////////////////////////////////////////////
 
+	//temp vec3's to convert from assimp vec3's
 	glm::vec3 tempVec;
 	glm::vec3 tempColor;
 
-	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile("../models/" + fileName,aiProcess_Triangulate);
- 
-	aiMesh *mesh = scene->mMeshes[0];
-
-	if(mesh->HasVertexColors(0)){
-		hasColor = true;
-	}else{
-		hasColor = false;
-	}
-
-
+	//for each face
 	for(unsigned int i=0;i<mesh->mNumFaces;i++){
 		const aiFace& face = mesh->mFaces[i];
 		
+		//push all face indices
 		for(int c = 0; c < face.mNumIndices; c++){
 			Indices.push_back(face.mIndices[c]);
 		}			
 
+		//for each point on a face
 		for(int j=0;j<3;j++){
 
+			//get texture coords as offset by current face
 			aiVector3D uv = mesh->mTextureCoords[0][face.mIndices[j]];
+			//push back onto vector for uv coords
 			TextureCoords.push_back(uv.x);
 			TextureCoords.push_back(uv.y);
 	
+			//get vertices coords as offset by current face
 			aiVector3D pos = mesh->mVertices[face.mIndices[j]];
+			//convert to glvec3
 			tempColor = {1.0f, 1.0f, 1.0f};
 			tempVec = {pos.x, pos.y, pos.z};
+
 			Vertex tempVertex = {tempVec, tempColor};
 			//push_back onto Vertices each vertex
 			Vertices.push_back(tempVertex);	
 		}
 	}
 
+	//get int index of which material/texture to use
+	matInd = mesh->mMaterialIndex;
 
-	loadTextures();
+	//default init
 	Init();
 }
 
@@ -195,7 +193,7 @@ void Object::Update(unsigned int dt, int radius)
 	//rotate model matrix at identity matrix for spin
     model = glm::rotate(glm::mat4(1.0f), (spinAngle), glm::vec3(0.0, 1.0, 0.0));
 
-	model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+	model = glm::scale(model, glm::vec3(0.75f, 0.75f, 0.75f));
 }
 
 glm::mat4 Object::GetModel()
@@ -235,45 +233,9 @@ std::string Object::getName(){
 	return name;
 }
 
-void Object::Render()
-{
-  glEnableVertexAttribArray(0);
-  glEnableVertexAttribArray(1);
-
-  glBindBuffer(GL_ARRAY_BUFFER, VB);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
-}
-
-void Object::loadTextures(){
-
-	int width, height, nrChannels;
-	unsigned char *data = stbi_load("../models/checker.jpg", &width, &height, &nrChannels, 0); 
-
-	std::cout << nrChannels;
-
-	unsigned int texture;
-	glGenTextures(1, &texture);
-
-	glBindTexture(GL_TEXTURE_2D, texture); 
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(data);
-
-}
 
 void Object::RenderTextures()
 {
-
 
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
@@ -283,14 +245,18 @@ void Object::RenderTextures()
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex,color));
 
+  //set active texture to by tex unit 0
+  glActiveTexture(GL_TEXTURE0);
 
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
-  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
-
-
+  //bind active texture to be texture saved by opengl at material index
+  glBindTexture(GL_TEXTURE_2D, matInd);
+  
+  //bind texture coord buffer for shader
   glBindBuffer(GL_ARRAY_BUFFER, TB);
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float), 0);
+ 
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
+  glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);

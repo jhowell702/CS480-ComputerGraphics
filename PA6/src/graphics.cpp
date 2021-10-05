@@ -1,5 +1,8 @@
 #include "graphics.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 Graphics::Graphics()
 {
 
@@ -44,12 +47,9 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
     return false;
   }
 
-  // Create the object
-  if(fileNames[2] != "Invalid"){
-  	m_object = new Object(fileNames[2]);
-  }else{
-	m_object = new Object();
-  }
+
+  //load all meshes from .obj
+  LoadObjects(fileNames);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -113,13 +113,11 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
 
 void Graphics::Update(unsigned int dt)
 {
-  // Update the object
-  m_object->Update(dt, 3);
 
-}
+	for (Object * n : l_objects){
+		n->Update(dt, 3);
+	}
 
-Object* Graphics::getObject(){
-	return m_object;
 }
 
 void Graphics::Render()
@@ -137,8 +135,11 @@ void Graphics::Render()
 
   // Render the object
 
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(m_object->GetModel()));
-  m_object->RenderTextures();
+  for(Object * model : l_objects){
+	glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(model->GetModel()));
+	model->RenderTextures();
+  }
+
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -147,6 +148,80 @@ void Graphics::Render()
     string val = ErrorString( error );
     std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
+}
+
+///////////////////////////////////////////////////////////
+
+void Graphics::LoadObjects(std::string* fileNames){
+
+	objName = fileNames[2];
+
+	//load scene from obj file
+	Assimp::Importer importer;
+	const aiScene *scene = importer.ReadFile("../models/" + fileNames[2], 		aiProcess_Triangulate);
+
+	//get number of meshes in obj
+	int numMeshes = scene->mNumMeshes;
+
+	//get number of materials in obj
+	int numMaterials = scene->mNumMaterials;
+	
+	//for each material
+	for(int i = 0; i < numMaterials; i++){
+		aiMaterial * test = scene->mMaterials[i];
+		
+		//get texture file path
+		aiString Path;
+        	if (test->GetTexture(aiTextureType_DIFFUSE, 0, &Path, NULL, NULL, NULL, NULL, NULL) == AI_SUCCESS) {
+		
+		//concatenate texture name and path to folder with textures
+                std::string FullPath = "../models/";
+		FullPath = FullPath + Path.data;
+	
+		//load textures using file name and path
+		loadTextures(FullPath);
+		}
+	}
+
+	//for each mesh
+	for(int i = 0; i < numMeshes; i++){
+			//create a new Object
+			Object * temp = new Object(scene->mMeshes[i]);
+			//push back onto list of objects
+			l_objects.push_back(temp);		
+	}
+
+
+
+}
+
+unsigned int * Graphics::loadTextures(std::string texFileName){
+
+
+	int width, height, nrChannels;
+	//using stbi, load texture file
+	unsigned char *data = stbi_load(texFileName.c_str(), &width, &height, &nrChannels, 0); 
+
+	//material/texture index, to be called during render
+	unsigned int * texture = new unsigned int;
+
+	//generate and attached texture pointer
+	glGenTextures(1, texture);
+
+	//bind texture to index saved by texture
+	glBindTexture(GL_TEXTURE_2D, *texture); 
+
+	//giving tetxture to opengl
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	
+	//generate mipmap for this texture
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	//free stbi image data
+	stbi_image_free(data);
+
+	//return texture/material index
+	return texture;
 }
 
 std::string Graphics::ErrorString(GLenum error)

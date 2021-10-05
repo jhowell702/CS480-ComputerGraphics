@@ -113,24 +113,16 @@ void Engine::Run()
 	//start menu
 	ImGui::Begin("Controls");
 
-	//set menu pos
-        ImGui::SetWindowPos(ImVec2(113,15), true);
-	ImGui::SetWindowSize(ImVec2(575,100), true);
+        ImGui::SetWindowPos(ImVec2(50,50), true);
+	ImGui::SetWindowSize(ImVec2(250,50), true);
 
-	//menu controls
-	ImGui::Text("Models need to be placed in the models folder of the main project directory");
-	ImGui::Text("Object Name:");
+	ImGui::Text("Current .obj file: ");
 	ImGui::SameLine();
-	ImGui::Text(m_graphics->getObject()->getName().c_str());
-	if(m_graphics->getObject()->hasColor){
-		ImGui::Text("This object did have vertex colors.");
-	}else{
-		ImGui::Text("This object did not have vertex colors set. Defaulting to white!");
-	}
+	ImGui::Text(m_graphics->objName.c_str());
 
-    ImGui::End();
+    	ImGui::End();
 
-    ImGui::Render();
+    	ImGui::Render();
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

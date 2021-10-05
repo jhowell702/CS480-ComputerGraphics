@@ -8,16 +8,13 @@ class Object
 {
   public:
     Object();
-    Object(std::string fileName);
+    Object(aiMesh *mesh);
     ~Object();
 
     void Init();
     void Update(unsigned int dt, int radius);
     void Render();
     void RenderTextures();
-
-    void loadTextures();
-
 
     void loadDefaultCube();
 
@@ -26,7 +23,7 @@ class Object
     bool getDir();
     bool getSpin();
 
-	std::string getName();
+    std::string getName();
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();
@@ -58,6 +55,8 @@ class Object
     GLuint TB;
 
     std::vector<float> TextureCoords;
+
+    std::vector<unsigned int> textureIDs;
     
     Object* parent;
 
@@ -73,6 +72,8 @@ class Object
     unsigned int texture;
  
     int numVerts;
+
+    unsigned int matInd;
 
 };
 

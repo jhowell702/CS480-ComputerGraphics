@@ -1,10 +1,11 @@
 #version 330
           
-          smooth in vec3 color;
-          
-          out vec4 frag_color;
+          in vec2 texCoord;
+	  out vec4 frag_color;
+
+	  uniform sampler2D texture_sampler;
           
           void main(void)
           {
-             frag_color = vec4(color.rgb, 1.0);
+             frag_color = texture(texture_sampler, texCoord);
           }

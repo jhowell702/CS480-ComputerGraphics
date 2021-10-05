@@ -47,6 +47,8 @@ std::string* commandLineLoader(int argc, char **argv){
 				std::cout << "Flag -m provided but no file name given!" << std::endl;
 			}
 		}
+
+
 	}
 
 	//if still invalid, then flags weren't found

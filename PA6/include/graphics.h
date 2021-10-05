@@ -18,7 +18,10 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
 
-    Object* getObject();
+    void LoadObjects(std::string* fileNames);
+    unsigned int * loadTextures(std::string texFileName);
+
+    std::string objName;
 
   private:
     std::string ErrorString(GLenum error);
@@ -30,7 +33,8 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    Object *m_object;
+
+    std::vector<Object *> l_objects;
 
 };
 

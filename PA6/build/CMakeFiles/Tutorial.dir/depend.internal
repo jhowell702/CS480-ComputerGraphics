@@ -134,6 +134,7 @@ CMakeFiles/Tutorial.dir/src/graphics.cpp.o
  ../include/imconfig.h
  ../include/object.h
  ../include/shader.h
+ ../include/stb_image.h
  /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/graphics.cpp
  /usr/include/SDL2/SDL.h
  /usr/include/SDL2/SDL_assert.h
@@ -341,7 +342,6 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/graphics_headers.h
  ../include/imconfig.h
  ../include/object.h
- ../include/stb_image.h
  /home/jhowell/Code/CS480-Workspace/cs480Howell/PA6/src/object.cpp
  /usr/include/SDL2/SDL.h
  /usr/include/SDL2/SDL_assert.h
