@@ -152,7 +152,7 @@ void Graphics::Render()
 
 ///////////////////////////////////////////////////////////
 
-void Graphics::LoadObjects(std::string* fileNames){
+void Graphics::LoadFromConfig(std::string* fileNames){
 
 	objName = fileNames[2];
 

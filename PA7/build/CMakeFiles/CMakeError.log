@@ -611,3 +611,58 @@ Makefile:126: recipe for target 'cmTC_29646/fast' failed
 make: *** [cmTC_29646/fast] Error 2
 
 
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6f76b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_6f76b.dir/build.make CMakeFiles/cmTC_6f76b.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6f76b.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_6f76b.dir/CheckSymbolExists.c.o   -c /home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_6f76b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6f76b.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_6f76b.dir/CheckSymbolExists.c.o  -o cmTC_6f76b 
+CMakeFiles/cmTC_6f76b.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_6f76b.dir/build.make:97: recipe for target 'cmTC_6f76b' failed
+make[1]: *** [cmTC_6f76b] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_6f76b/fast' failed
+make: *** [cmTC_6f76b/fast] Error 2
+
+File /home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e3007/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e3007.dir/build.make CMakeFiles/cmTC_e3007.dir/build
+make[1]: Entering directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e3007.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e3007.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e3007
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e3007.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e3007.dir/CheckFunctionExists.c.o  -o cmTC_e3007 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_e3007.dir/build.make:97: recipe for target 'cmTC_e3007' failed
+make[1]: *** [cmTC_e3007] Error 1
+make[1]: Leaving directory '/home/jhowell/Code/CS480-Workspace/cs480Howell/PA7/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_e3007/fast' failed
+make: *** [cmTC_e3007/fast] Error 2
+
+

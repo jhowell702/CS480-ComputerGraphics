@@ -33,7 +33,7 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-
+    map<std::string, Object> m_objects;
     std::vector<Object *> l_objects;
 
 };
