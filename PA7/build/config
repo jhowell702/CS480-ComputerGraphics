@@ -3,5 +3,78 @@ name Earth
 spin 1
 rotation 1
 radius 1
+scale 1
 parent none
 obj Earth.obj
+
+[Mercury]
+name Mercury
+spin 0.017
+rotation 4.15
+radius 0.387
+scale 0.382
+parent none
+obj Mercury.obj
+
+[Venus]
+name Venus
+spin -0.004
+rotation 1.625
+radius 0.723
+scale 0.949
+parent none
+obj Venus.obj
+
+[Mars]
+name Mars
+spin 0.972
+rotation 1.881
+radius 1.523
+scale 0.532
+parent none
+obj Mars.obj
+
+[Jupiter]
+name Jupiter
+spin 2.414
+rotation 11.859
+radius 5.205
+scale 11.209
+parent none
+obj Jupiter.obj
+
+[Saturn]
+name Saturn
+spin 2.234
+rotation 0.034
+radius 9.582
+scale 9.449
+parent none
+obj Saturn.obj
+
+[Uranus]
+name Uranus
+spin -1.390
+rotation 0.012
+radius 19.201
+scale 4.007
+parent none
+obj Uranus.obj
+
+[Neptune]
+name Neptune
+spin 1.484
+rotation 0.006
+radius 30.047
+scale 3.883
+parent none
+obj Neptune.obj
+
+[Pluto]
+name Pluto
+spin 0.156
+rotation 0.004
+radius 39.481
+scale 0.186
+parent none
+obj Pluto.obj
