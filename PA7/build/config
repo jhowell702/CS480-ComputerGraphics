@@ -1,11 +1,13 @@
+[Earth]
 Object Earth
 spin 1
 rotation 1
 radius 1
 scale 1
 parent none
-obj buddha.obj
+obj Earth.obj
 
+[Mercury]
 Object Mercury
 spin 0.017
 rotation 4.15
@@ -76,3 +78,12 @@ radius 39.481
 scale 0.186
 parent none
 obj Pluto.obj
+
+[Sun]
+name Sun
+spin 0
+rotation 0
+radius 0
+scale 109.125
+parent none
+obj Sun.obj
