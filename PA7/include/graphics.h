@@ -18,7 +18,8 @@ class Graphics
     void Update(unsigned int dt);
     void Render();
 
-    void LoadObjects(std::string* fileNames);
+    Object * LoadObjects(std::string fileName);
+    void LoadFromConfig(std::string* fileNames);
     unsigned int * loadTextures(std::string texFileName);
 
     std::string objName;
@@ -33,7 +34,7 @@ class Graphics
     GLint m_viewMatrix;
     GLint m_modelMatrix;
 
-    map<std::string, Object> m_objects;
+    map<std::string, Object * > m_objects;
     std::vector<Object *> l_objects;
 
 };

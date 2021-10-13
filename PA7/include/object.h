@@ -12,7 +12,7 @@ class Object
     ~Object();
 
     void Init();
-    void Update(unsigned int dt, int radius);
+    void Update(unsigned int dt, float simSpeed);
     void Render();
     void RenderTextures();
 
@@ -22,8 +22,14 @@ class Object
     void setSpin(bool newState);
     bool getDir();
     bool getSpin();
-
     std::string getName();
+
+    void setName(std::string set){name = set;};
+    void setSpinSpeed(float set){spinSpeed = set * 10000;};
+    void setRotSpeed(float set){rotSpeed = set * 1500;};
+    void setRadius(float set){radius = set * 5;};
+    void setScale(float set){scale = set;};
+    void setParent(std::string set){parent = set;};
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();
@@ -47,7 +53,6 @@ class Object
     std::vector<Vertex> Vertices;
 
     glm::mat4 location;
-    glm::vec3 scale;
      
     std::vector<unsigned int> Indices;
     GLuint VB;
@@ -58,20 +63,16 @@ class Object
 
     std::vector<unsigned int> textureIDs;
     
-    Object* parent;
 
-    bool dirFlag;
-    bool spinFlag;
+    float currSpinAngle;
+    float currRotAngle;
 
-    float spinAngle;
-    float rotationAngle;
-
-    int spinSpeed;
-    int rotationSpeed;
-
-    unsigned int texture;
- 
-    int numVerts;
+    float spinSpeed;
+    float rotSpeed;
+    float radius;
+    float scale;
+    std::string parent;
+  
 
     unsigned int matInd;
 

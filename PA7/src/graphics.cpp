@@ -49,7 +49,7 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
 
 
   //load all meshes from .obj
-  LoadObjects(fileNames);
+  LoadFromConfig(fileNames);
 
   // Set up the shaders
   m_shader = new Shader();
@@ -114,9 +114,15 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
 void Graphics::Update(unsigned int dt)
 {
 
-	for (Object * n : l_objects){
-		n->Update(dt, 3);
-	}
+	for (auto const& x : m_objects)
+	{
+		x.second->Update(dt, 1000);
+	};
+
+
+//	for (Object * n : l_objects){
+//		n->Update(dt, 3);
+//	}
 
 }
 
@@ -134,11 +140,16 @@ void Graphics::Render()
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
   // Render the object
+//  for(Object * model : l_objects){
+//	glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(model->GetModel()));
+//	model->RenderTextures();
+//  }
 
-  for(Object * model : l_objects){
-	glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(model->GetModel()));
-	model->RenderTextures();
-  }
+	for (auto const& x : m_objects)
+	{
+		glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(x.second->GetModel()));
+		x.second->RenderTextures();
+	};
 
 
   // Get any errors from OpenGL
@@ -150,15 +161,59 @@ void Graphics::Render()
   }
 }
 
-///////////////////////////////////////////////////////////
-
 void Graphics::LoadFromConfig(std::string* fileNames){
 
-	objName = fileNames[2];
+	std::ifstream file("config");
+
+	std::string tester;
+	std::string name;
+	float rot;
+	float spin;
+	float radius;
+	float scale;
+	std::string parent;
+	std::string objFileName;
+
+
+	while(!file.eof()){
+	
+		file >> tester;
+
+		if(tester.compare("Object") == 0){
+			file >> name;
+			file >> tester >> spin;
+			file >> tester >> rot;
+			file >> tester >> radius;
+			file >> tester >> scale;
+			file >> tester >> parent;
+			file >> tester >> objFileName;
+
+			Object * temp = LoadObjects(objFileName);
+			temp->setName(name);
+			temp->setSpinSpeed(spin);
+			temp->setRotSpeed(rot);
+			temp->setScale(scale);
+			temp->setRadius(radius);
+			temp->setParent(parent);
+
+	
+			m_objects.insert(pair<std::string,Object *>(name, temp));			
+
+
+		}
+	}	
+
+}
+
+///////////////////////////////////////////////////////////
+
+Object * Graphics::LoadObjects(std::string fileName){
+
+	objName = fileName;
 
 	//load scene from obj file
 	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile("../models/" + fileNames[2], 		aiProcess_Triangulate);
+	const aiScene *scene = importer.ReadFile("../models/" + fileName, 		aiProcess_Triangulate);
 
 	//get number of meshes in obj
 	int numMeshes = scene->mNumMeshes;
@@ -184,12 +239,12 @@ void Graphics::LoadFromConfig(std::string* fileNames){
 	}
 
 	//for each mesh
-	for(int i = 0; i < numMeshes; i++){
+	//for(int i = 0; i < numMeshes; i++){
 			//create a new Object
-			Object * temp = new Object(scene->mMeshes[i]);
+			Object * temp = new Object(scene->mMeshes[0]);
 			//push back onto list of objects
-			l_objects.push_back(temp);		
-	}
+			return temp;
+	//}
 
 
 

@@ -42,6 +42,7 @@
     #include <assimp/color4.h> //includes the aiColor4 object, which is used to handle the colors from the mesh objects 
 
 #include <map>
+#include <fstream>
 
 struct Vertex
 {

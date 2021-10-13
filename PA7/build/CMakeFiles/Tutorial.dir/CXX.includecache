@@ -171,6 +171,8 @@ assimp/color4.h
 -
 map
 -
+fstream
+-
 
 ../include/imconfig.h
 

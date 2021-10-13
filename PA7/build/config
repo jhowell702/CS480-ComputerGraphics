@@ -1,20 +1,18 @@
-[Earth]
-name Earth
+Object Earth
 spin 1
 rotation 1
 radius 1
 scale 1
 parent none
-obj Earth.obj
+obj buddha.obj
 
-[Mercury]
-name Mercury
+Object Mercury
 spin 0.017
 rotation 4.15
 radius 0.387
 scale 0.382
 parent none
-obj Mercury.obj
+obj buddha.obj
 
 [Venus]
 name Venus

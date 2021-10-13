@@ -1,8 +1,6 @@
 #include "object.h"
 
 
-
-
 #include <fstream>
 #include <sstream>
 
@@ -17,21 +15,15 @@ Object::Object()
 
 void Object::Init(){
 
-    rotationAngle = 0.0f;
-    spinAngle = 0.0f;
+    currRotAngle = 0.0f;
+    currSpinAngle = 0.0f;
 
-    rotationSpeed = 1500;
-    spinSpeed = 1000;
-
-    scale = glm::vec3(1,1,1);
-
-    dirFlag = true;
-    spinFlag = true;
+//    rotSpeed = 1500;
+//    spinSpeed = 1000;
 
     location = glm::mat4(1.0f);
 
-    parent = NULL;
-
+    parent = "none";
 
     glGenBuffers(1, &VB);
     glBindBuffer(GL_ARRAY_BUFFER, VB);
@@ -48,7 +40,7 @@ void Object::Init(){
 
 }
 
-//custom constructor that takes a string file name to load a target object
+
 Object::Object(aiMesh *mesh)
 {
 
@@ -163,37 +155,35 @@ void Object::loadDefaultCube(){
 }
 
 void Object::setDir(bool newState){
-	dirFlag = newState;
 }
 
 bool Object::getDir(){
-	return dirFlag;
 }
 
 bool Object::getSpin(){
-	return spinFlag;
 }
 
 void Object::setSpin(bool newState){
-	spinFlag = newState;
 }
 
-void Object::Update(unsigned int dt, int radius)
+void Object::Update(unsigned int dt, float simSpeed)
 {
 
 	//update spin angles depending on boolean
-  	spinAngle += dt * M_PI/spinSpeed;
+  	currSpinAngle += dt * M_PI/spinSpeed;
+  	currRotAngle += dt * M_PI/rotSpeed;
+
 
 	//translate model location based on x and z coords as calculated to be on circle
 
-	location = glm::translate(glm::vec3(radius * (glm::cos(rotationAngle)),
+	location = glm::translate(glm::vec3(radius * (glm::cos(currRotAngle)),
 						 0,
-						radius * (glm::sin(rotationAngle))));
+						radius * (glm::sin(currRotAngle))));
 
 	//rotate model matrix at identity matrix for spin
-    model = glm::rotate(glm::mat4(1.0f), (spinAngle), glm::vec3(0.0, 1.0, 0.0));
+    	model = glm::rotate(location, (currSpinAngle), glm::vec3(0.0, 1.0, 0.0));
 
-	model = glm::scale(model, glm::vec3(0.75f, 0.75f, 0.75f));
+	model = glm::scale(model, glm::vec3(scale, scale, scale));
 }
 
 glm::mat4 Object::GetModel()
@@ -206,19 +196,17 @@ glm::mat4 Object::GetLocation(){
 }
 
 void Object::SetScale(glm::vec3 newScale){
-	scale = newScale;
 }
 
 void Object::SetParent(Object* target){
-	parent = target;
 }
 
 void Object::IncrementRotationSpeed(int change){
-	rotationSpeed += change;
+	rotSpeed += change;
 }
 
 int Object::GetRotationSpeed(){
-	return rotationSpeed;
+	return rotSpeed;
 }
 
 void Object::IncrementSpinSpeed(int change){
