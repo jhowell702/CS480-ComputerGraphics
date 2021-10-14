@@ -7,6 +7,15 @@ scale 1
 parent none
 obj Earth.obj
 
+[Moon]
+Object Moon
+spin 13.367
+rotation 13.367
+radius 0.003
+scale 0.272
+parent none
+obj Moon.obj
+
 [Mercury]
 Object Mercury
 spin 0.017
@@ -34,6 +43,24 @@ scale 0.532
 parent none
 obj Mars.obj
 
+[Phobos]
+name Phobos
+spin 3.134
+rotation 3.134
+radius 0.00004
+scale 0.002
+parent Mars 
+obj Phobos.obj
+
+[Deimos]
+name Deimos
+spin 0.792
+rotation 0.792
+radius 0.0002
+scale 0.0001
+parent Mars 
+obj Deimos.obj
+
 [Jupiter]
 name Jupiter
 spin 2.414
@@ -42,6 +69,24 @@ radius 5.205
 scale 11.209
 parent none
 obj Jupiter.obj
+
+[Ganymede]
+name Ganymede
+spin 51.041
+rotation 51.041
+radius 0.007
+scale 0.413
+parent Jupiter 
+obj Ganymede.obj
+
+[Callisto]
+name Callisto
+spin 3.134
+rotation 3.134
+radius 0.013
+scale 0.378
+parent Jupiter 
+obj Phobos.obj
 
 [Saturn]
 name Saturn
@@ -52,6 +97,24 @@ scale 9.449
 parent none
 obj Saturn.obj
 
+[Titan]
+name Titan
+spin 22.904
+rotation 22.904
+radius 0.008
+scale 0.404
+parent Saturn
+obj Titan.obj
+
+[Rhea]
+name Rhea
+spin 80.832
+rotation 80.832
+radius 0.004
+scale 9.449
+parent Saturn
+obj Rhea.obj
+
 [Uranus]
 name Uranus
 spin -1.390
@@ -60,6 +123,24 @@ radius 19.201
 scale 4.007
 parent none
 obj Uranus.obj
+
+[Oberon]
+name Oberon
+spin 27.126
+rotation 27.126
+radius 0.004
+scale 0.1194
+parent Uranus
+obj Oberon.obj
+
+[Titania]
+name Titania
+spin 41.948
+rotation 41.948
+radius 0.003
+scale 0.1235
+parent Uranus
+obj Titania.obj
 
 [Neptune]
 name Neptune
@@ -70,6 +151,24 @@ scale 3.883
 parent none
 obj Neptune.obj
 
+[Triton]
+name Triton
+spin -62.14
+rotation -62.14
+radius 0.003
+scale 0.212
+parent Neptune
+obj Triton.obj
+
+[Proteus]
+name Proteus
+spin 325.490
+rotation 325.490
+radius 0.001
+scale 0.033
+parent Neptune
+obj Proteus.obj
+
 [Pluto]
 name Pluto
 spin 0.156
@@ -78,6 +177,24 @@ radius 39.481
 scale 0.186
 parent none
 obj Pluto.obj
+
+[Charon]
+name Charon
+spin 57.179
+rotation 57.179
+radius 0.0001
+scale 0.095
+parent Pluto
+obj Charon.obj
+
+[Nix]
+name Nix
+spin 14.693
+rotation 14.693
+radius 0.0003
+scale 0.004
+parent Pluto
+obj Nix.obj
 
 [Sun]
 name Sun
