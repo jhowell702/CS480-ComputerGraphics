@@ -22,6 +22,9 @@ class Engine
     void nextObject();
     void lastObject();
     void setObject();
+
+    void incSimSpeed();
+    void decSimSpeed();
   
   private:
     // Window related variables
@@ -44,6 +47,7 @@ class Engine
     int counter;
     std::string currObject;
 
+    int simCounter;
 };
 
 #endif // ENGINE_H

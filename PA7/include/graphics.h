@@ -27,6 +27,10 @@ class Graphics
     Camera * getCamera(){return m_camera;};
     Object * getObject(std::string name){return m_objects[name];};
 
+	void incSpinSim(float in){spinSimSpeed += in;};
+	void incRotPlanSim(float in){rPSimSpeed += in;};
+	void incRotMoonSim(float in){rMSimSpeed += in;};
+
   private:
     std::string ErrorString(GLenum error);
 
@@ -36,6 +40,10 @@ class Graphics
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
     GLint m_modelMatrix;
+
+    float spinSimSpeed;
+    float rPSimSpeed;
+    float rMSimSpeed;
 
     map<std::string, Object * > m_objects;
     std::vector<Object *> l_objects;

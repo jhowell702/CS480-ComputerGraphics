@@ -53,6 +53,7 @@ bool Engine::Initialize(std::string * fileNames)
 
   // set counter to be 0
   counter = 0;
+  simCounter = 5;
   currObject = "Sun";
 
     IMGUI_CHECKVERSION();
@@ -132,16 +133,16 @@ void Engine::Run()
 		nextObject();
 	}
 
-	if(ImGui::Button("<-")){
-
+	if(ImGui::Button("<- ##simdec")){
+		incSimSpeed();
 	}
 	ImGui::SameLine();
 	ImGui::Text("Simulation Speed: ");
 	ImGui::SameLine();
-	ImGui::Text("to do oops");
+	ImGui::Text(" %d ", simCounter);
 	ImGui::SameLine();
-	if(ImGui::Button("->")){
-
+	if(ImGui::Button("-> ##siminc")){
+		decSimSpeed();
 	}
 
 
@@ -176,7 +177,7 @@ void Engine::Keyboard()
 
 void Engine::nextObject(){
 
-	if(counter + 1 < 10){
+	if(counter + 1 < 11){
 		counter++;
 	}else{
 		counter = 0;
@@ -190,10 +191,30 @@ void Engine::lastObject(){
 	if(counter - 1 >= 0){
 		counter--;
 	}else{
-		counter = 9;
+		counter = 10;
 	}	
 	setObject();
 
+}
+
+void Engine::incSimSpeed(){
+
+	if(simCounter - 1 > -11){
+		simCounter--;
+		m_graphics->incSpinSim(100);
+		m_graphics->incRotPlanSim(1000);
+		m_graphics->incRotMoonSim(100);
+	}
+}
+
+void Engine::decSimSpeed(){
+
+	if(simCounter + 1 < 11){
+		simCounter++;
+		m_graphics->incSpinSim(-100);
+		m_graphics->incRotPlanSim(-1000);
+		m_graphics->incRotMoonSim(-100);
+	}
 }
 
 void Engine::setObject(){
@@ -243,6 +264,10 @@ void Engine::setObject(){
 		case 9:
 			m_graphics->getCamera()->setFocus("Pluto", glm::vec3(0.0, 5.0, -20.0));
 			currObject = "Pluto";
+		break;
+		case 10:
+			m_graphics->getCamera()->setFocus("Sun", glm::vec3(0.0, 800.0, -5.0));
+			currObject = "Sun Far";
 		break;
 	}
 

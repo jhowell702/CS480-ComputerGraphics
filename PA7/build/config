@@ -113,7 +113,7 @@ obj Rhea.obj
 Object Uranus
 spin -0.72
 rotation 83.7
-radius 10
+radius 9
 scale 1.5
 parent none
 obj Uranus.obj
@@ -137,7 +137,7 @@ obj Titania.obj
 Object Neptune
 spin 0.673
 rotation 163.7
-radius 15
+radius 12
 scale 1.5
 parent none
 obj Neptune.obj
@@ -161,7 +161,7 @@ obj Proteus.obj
 Object Pluto
 spin 6.41
 rotation 248
-radius 20
+radius 15
 scale 0.18
 parent none
 obj Pluto.obj

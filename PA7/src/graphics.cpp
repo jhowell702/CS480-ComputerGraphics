@@ -51,6 +51,10 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
   //load all meshes from .obj
   LoadFromConfig(fileNames);
 
+   spinSimSpeed = 1500.0f;
+   rPSimSpeed = 10000.0f;
+   rMSimSpeed = 1000.0f;
+
   // Set up the shaders
   m_shader = new Shader();
   if(!m_shader->Initialize())
@@ -119,9 +123,9 @@ void Graphics::Update(unsigned int dt)
 	{
 
 		if(x.second->getParent().compare("none") == 0){
-			x.second->Update(dt, 1500.0f, 10000.0f);
+			x.second->Update(dt, spinSimSpeed, rPSimSpeed);
 		}else{
-			x.second->Update(dt,  m_objects[ x.second->getParent() ], 1500.0f,1000.0f);
+			x.second->Update(dt,  m_objects[ x.second->getParent() ], spinSimSpeed,rMSimSpeed);
 		}
 	};
 
