@@ -1,3 +1,4 @@
+[Earth]
 Object Earth
 spin 1
 rotation 1
@@ -5,6 +6,7 @@ radius 2
 scale 1
 parent none
 obj Earth.obj
+<<<<<<< HEAD
 
 Object Moon
 spin 27
@@ -13,10 +15,23 @@ radius .15
 scale .25
 parent Earth
 obj Moon.obj
+=======
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 
+[Moon]
+Object Moon
+spin 27.4
+rotation 0.0748
+radius 0.00257
+scale 0.2724
+parent Earth
+obj Moon.obj
+
+[Mercury]
 Object Mercury
 spin 58.8
 rotation 0.241
+<<<<<<< HEAD
 radius 0.8
 scale 0.382
 parent none
@@ -26,18 +41,37 @@ Object Venus
 spin -0.004
 rotation 1.625
 radius 1.4
+=======
+radius 0.387
+scale 0.383
+parent none
+obj Mercury.obj
+
+[Venus]
+name Venus
+spin -244
+rotation 0.615
+radius 0.723
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.949
 parent none
 obj Venus.obj
 
+<<<<<<< HEAD
 Object Mars
 spin 0.972
+=======
+[Mars]
+name Mars
+spin 1.03
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 rotation 1.881
 radius 3
 scale 0.532
 parent none
 obj Mars.obj
 
+<<<<<<< HEAD
 Object Phobos
 spin 3.134
 rotation 3.134
@@ -55,6 +89,28 @@ parent Mars
 obj Deimos.obj
 
 Object Jupiter
+=======
+[Phobos]
+name Phobos
+spin 0.00087
+rotation 0.00087
+radius 0.00006
+scale 0.00177
+parent Mars 
+obj Phobos.obj
+
+[Deimos]
+name Deimos
+spin 0.00346
+rotation 0.00346
+radius 0.00016
+scale 0.0.00118
+parent Mars 
+obj Deimos.obj
+
+[Jupiter]
+name Jupiter
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 spin 0.415
 rotation 11.859
 radius 5
@@ -62,6 +118,7 @@ scale 4
 parent none
 obj Jupiter.obj
 
+<<<<<<< HEAD
 Object Ganymede
 spin 0.01959
 rotation 7
@@ -98,18 +155,61 @@ Object Titan
 spin 15
 rotation 15
 radius .8
+=======
+[Ganymede]
+name Ganymede
+spin 0.01959
+rotation 0.01959
+radius 0.00716
+scale 0.41301
+parent Jupiter 
+obj Ganymede.obj
+
+[Callisto]
+name Callisto
+spin 0.0457
+rotation 29.4
+radius 0.01258
+scale 0.378
+parent Jupiter 
+obj Phobos.obj
+
+[Saturn]
+name Saturn
+spin 0.445
+rotation 0.034
+radius 9.582
+scale 9.449
+parent none
+obj Saturn.obj
+
+[Titan]
+name Titan
+spin 0.04366
+rotation 0.04366
+radius 0.00817
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.404
 parent Saturn
 obj Titan.obj
 
+<<<<<<< HEAD
 Object Rhea
 spin 0.01237
 rotation 4.5
 radius .45
+=======
+[Rhea]
+name Rhea
+spin 0.01237
+rotation 0.01237
+radius 0.00352
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.11960
 parent Saturn
 obj Rhea.obj
 
+<<<<<<< HEAD
 Object Uranus
 spin -0.72
 rotation 83.7
@@ -122,18 +222,43 @@ Object Oberon
 spin 0.03687
 rotation 13
 radius .36
+=======
+[Uranus]
+name Uranus
+spin -0.72
+rotation 83.7
+radius 19.201
+scale 4.007
+parent none
+obj Uranus.obj
+
+[Oberon]
+name Oberon
+spin 0.03687
+rotation 0.03687
+radius 0.00390
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.1194
 parent Uranus
 obj Oberon.obj
 
+<<<<<<< HEAD
 Object Titania
 spin 41.948
 rotation 41.948
 radius 0.29
+=======
+[Titania]
+name Titania
+spin 0.02383
+rotation 0.02383
+radius 0.00291
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.1235
 parent Uranus
 obj Titania.obj
 
+<<<<<<< HEAD
 Object Neptune
 spin 0.673
 rotation 163.7
@@ -170,10 +295,54 @@ Object Charon
 spin 6.4
 rotation 6.4
 radius .17
+=======
+[Neptune]
+name Neptune
+spin 0.673
+rotation 163.7
+radius 30.047
+scale 3.883
+parent none
+obj Neptune.obj
+
+[Triton]
+name Triton
+spin -0.01609
+rotation -0.01609
+radius 0.00237
+scale 0.1061
+parent Neptune
+obj Triton.obj
+
+[Proteus]
+name Proteus
+spin 0.00307
+rotation 0.00307
+radius 0.00079
+scale 0.03323
+parent Neptune
+obj Proteus.obj
+
+[Pluto]
+name Pluto
+spin 6.41
+rotation 247.9
+radius 39.481
+scale 0.186
+parent none
+obj Pluto.obj
+
+[Charon]
+name Charon
+spin 0.01749
+rotation 0.01749
+radius 0.00013
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 scale 0.095
 parent Pluto
 obj Charon.obj
 
+<<<<<<< HEAD
 Object Nix
 spin 1.89
 rotation 1.89
@@ -187,5 +356,22 @@ spin 500
 rotation 1
 radius 0
 scale 6
+=======
+[Nix]
+name Nix
+spin 0.06806
+rotation 0.06806
+radius 0.00033
+scale 0.0039
+parent Pluto
+obj Nix.obj
+
+[Sun]
+name Sun
+spin 0
+rotation 0
+radius 0
+scale 109.125
+>>>>>>> 89eb9ac85986079a7e36c68ece491fad9a0af4c9
 parent none
 obj Sun.obj
