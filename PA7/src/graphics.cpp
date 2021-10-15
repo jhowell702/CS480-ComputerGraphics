@@ -114,9 +114,15 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
 void Graphics::Update(unsigned int dt)
 {
 
+	m_camera->Update( m_objects[m_camera->getFocus()]->getLocVector() );
 	for (auto const& x : m_objects)
 	{
-		x.second->Update(dt, 1000);
+
+		if(x.second->getParent().compare("none") == 0){
+			x.second->Update(dt, 1500.0f, 10000.0f);
+		}else{
+			x.second->Update(dt,  m_objects[ x.second->getParent() ], 1500.0f,1000.0f);
+		}
 	};
 
 
@@ -211,6 +217,8 @@ Object * Graphics::LoadObjects(std::string fileName){
 
 	objName = fileName;
 
+	unsigned int * matInd;
+
 	//load scene from obj file
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile("../models/" + fileName, 		aiProcess_Triangulate);
@@ -234,14 +242,14 @@ Object * Graphics::LoadObjects(std::string fileName){
 		FullPath = FullPath + Path.data;
 	
 		//load textures using file name and path
-		loadTextures(FullPath);
+		matInd = loadTextures(FullPath);
 		}
 	}
 
 	//for each mesh
 	//for(int i = 0; i < numMeshes; i++){
 			//create a new Object
-			Object * temp = new Object(scene->mMeshes[0]);
+			Object * temp = new Object(scene->mMeshes[0], *matInd);
 			//push back onto list of objects
 			return temp;
 	//}
@@ -252,9 +260,10 @@ Object * Graphics::LoadObjects(std::string fileName){
 
 unsigned int * Graphics::loadTextures(std::string texFileName){
 
-
 	int width, height, nrChannels;
 	//using stbi, load texture file
+
+	stbi_set_flip_vertically_on_load(1);
 	unsigned char *data = stbi_load(texFileName.c_str(), &width, &height, &nrChannels, 0); 
 
 	//material/texture index, to be called during render
@@ -265,6 +274,9 @@ unsigned int * Graphics::loadTextures(std::string texFileName){
 
 	//bind texture to index saved by texture
 	glBindTexture(GL_TEXTURE_2D, *texture); 
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	//giving tetxture to opengl
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

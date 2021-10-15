@@ -84,7 +84,7 @@ Object::~Object()
 void Object::Update(unsigned int dt)
 {
 
-	//declare x and z coordinate variables
+	/*/declare x and z coordinate variables
 
   	float x;
   	float z;
@@ -105,7 +105,13 @@ void Object::Update(unsigned int dt)
   	angle += dt * M_PI/1000;
   	glm::mat4 rotMat = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0.0, 1.0, 0.0));
 
-  	model = glm::translate(location) * rotMat;
+  	model = glm::translate(location) * rotMat;*/
+
+  	angle += dt * M_PI/1000;
+	model = glm::rotate(glm::mat4(1.0f), (angle), glm::vec3(0,1,0));
+	model = glm::translate(model, glm::vec3(0,0,7));
+	model = glm::rotate(model, (-angle), glm::vec3(0,1,0));
+
 
 }
 

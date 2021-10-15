@@ -8,11 +8,12 @@ class Object
 {
   public:
     Object();
-    Object(aiMesh *mesh);
+    Object(aiMesh *mesh, unsigned int in_matInd);
     ~Object();
 
     void Init();
-    void Update(unsigned int dt, float simSpeed);
+    void Update(unsigned int dt, float simSpeed, float rotSpeed);
+    void Update(unsigned int dt, Object * parent, float simSpeed, float rotSpeed);
     void Render();
     void RenderTextures();
 
@@ -22,13 +23,16 @@ class Object
     void setSpin(bool newState);
     bool getDir();
     bool getSpin();
+
     std::string getName();
+    std::string getParent(){return parent;};
+    glm::vec3 getLocVector(){return locVector;};
 
     void setName(std::string set){name = set;};
-    void setSpinSpeed(float set){spinSpeed = set * 10000;};
-    void setRotSpeed(float set){rotSpeed = set * 1500;};
-    void setRadius(float set){radius = set * 5;};
-    void setScale(float set){scale = set;};
+    void setSpinSpeed(float set){spinSpeed = set;};
+    void setRotSpeed(float set){rotSpeed = set;};
+    void setRadius(float set){radius = set * 40;};
+    void setScale(float set){scale = set * 3;};
     void setParent(std::string set){parent = set;};
 
     glm::mat4 GetModel();
@@ -53,6 +57,7 @@ class Object
     std::vector<Vertex> Vertices;
 
     glm::mat4 location;
+    glm::vec3 locVector;
      
     std::vector<unsigned int> Indices;
     GLuint VB;

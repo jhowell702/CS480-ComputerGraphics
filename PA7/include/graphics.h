@@ -24,6 +24,9 @@ class Graphics
 
     std::string objName;
 
+    Camera * getCamera(){return m_camera;};
+    Object * getObject(std::string name){return m_objects[name];};
+
   private:
     std::string ErrorString(GLenum error);
 

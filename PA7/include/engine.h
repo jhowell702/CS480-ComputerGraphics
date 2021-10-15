@@ -18,6 +18,10 @@ class Engine
     void Keyboard();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
+
+    void nextObject();
+    void lastObject();
+    void setObject();
   
   private:
     // Window related variables
@@ -36,6 +40,9 @@ class Engine
     bool m_running;
 
     bool validObject;
+
+    int counter;
+    std::string currObject;
 
 };
 

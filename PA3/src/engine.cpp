@@ -227,11 +227,72 @@ void Engine::Run()
 
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-
-
     // Swap to the Window
     m_window->Swap();
   }
+}
+
+void Engine::nextObject(){
+
+	if(counter + 1 < 10){
+		counter++;
+	}else{
+		counter = 0 ;
+	}
+
+	setNewObject();
+	
+}
+
+void Engine::lastObject(){
+
+	if(counter - 1 >= 0){
+		counter--;
+	}else{
+		counter = 9 ;
+	}
+
+	setNewObject();
+
+}
+
+void Engine::setNewObject(){
+
+	switch(counter){
+
+		case 0:
+			m_graphics->setNewFocus("Sun", 100, -50);
+		break;
+		case 1:
+
+		break;
+		case 2:
+
+		break;
+		case 3:
+
+		break;
+		case 4:
+
+		break;
+		case 5:
+
+		break;
+		case 6:
+
+		break;
+		case 7:
+
+		break;
+		case 8:
+
+		break;
+		case 9:
+
+		break;
+
+	}
+
 }
 
 void Engine::Keyboard()

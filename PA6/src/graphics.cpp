@@ -199,6 +199,8 @@ unsigned int * Graphics::loadTextures(std::string texFileName){
 
 
 	int width, height, nrChannels;
+
+	stbi_set_flip_vertically_on_load(1);
 	//using stbi, load texture file
 	unsigned char *data = stbi_load(texFileName.c_str(), &width, &height, &nrChannels, 0); 
 

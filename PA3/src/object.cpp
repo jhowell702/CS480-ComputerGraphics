@@ -138,7 +138,6 @@ void Object::Update(unsigned int dt, int radius)
 		location = location * parent->GetLocation();
 	}
 
-
 	//rotate model matrix at transformation location for spin
         model = glm::rotate(location, (spinAngle), glm::vec3(0.0, 1.0, 0.0));
 

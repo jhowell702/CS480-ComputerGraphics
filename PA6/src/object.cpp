@@ -182,7 +182,7 @@ void Object::Update(unsigned int dt, int radius)
 {
 
 	//update spin angles depending on boolean
-  	spinAngle += dt * M_PI/spinSpeed;
+  	spinAngle += 0 * dt * M_PI/spinSpeed;
 
 	//translate model location based on x and z coords as calculated to be on circle
 

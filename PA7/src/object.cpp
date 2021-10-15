@@ -41,7 +41,7 @@ void Object::Init(){
 }
 
 
-Object::Object(aiMesh *mesh)
+Object::Object(aiMesh *mesh, unsigned int in_matInd)
 {
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ Object::Object(aiMesh *mesh)
 			//push back onto vector for uv coords
 			TextureCoords.push_back(uv.x);
 			TextureCoords.push_back(uv.y);
-	
+
 			//get vertices coords as offset by current face
 			aiVector3D pos = mesh->mVertices[face.mIndices[j]];
 			//convert to glvec3
@@ -81,7 +81,7 @@ Object::Object(aiMesh *mesh)
 	}
 
 	//get int index of which material/texture to use
-	matInd = mesh->mMaterialIndex;
+	matInd = in_matInd;
 
 	//default init
 	Init();
@@ -166,22 +166,38 @@ bool Object::getSpin(){
 void Object::setSpin(bool newState){
 }
 
-void Object::Update(unsigned int dt, float simSpeed)
+void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 {
 
 	//update spin angles depending on boolean
-  	currSpinAngle += dt * M_PI/spinSpeed;
-  	currRotAngle += dt * M_PI/rotSpeed;
+  	currSpinAngle += dt * M_PI/(spinSpeed * -1 * simSpeed);
+  	currRotAngle += dt * M_PI/(rotSpeed * -1 * rotSim);
+
+	locVector = glm::vec3(radius * (glm::cos(currRotAngle)), 0, radius * (glm::sin(currRotAngle)));
 
 
 	//translate model location based on x and z coords as calculated to be on circle
 
-	location = glm::translate(glm::vec3(radius * (glm::cos(currRotAngle)),
-						 0,
-						radius * (glm::sin(currRotAngle))));
+	location = glm::translate(glm::vec3(radius * (glm::cos(currRotAngle)), 0, radius * (glm::sin(currRotAngle))));
 
 	//rotate model matrix at identity matrix for spin
     	model = glm::rotate(location, (currSpinAngle), glm::vec3(0.0, 1.0, 0.0));
+
+	model = glm::scale(model, glm::vec3(scale, scale, scale));
+}
+
+//if it has a parent object
+void Object::Update(unsigned int dt, Object * parent, float simSpeed, float rotSim)
+{
+
+	//update spin angles depending on boolean
+  	currSpinAngle += dt * M_PI/(spinSpeed * -1 * simSpeed);
+  	currRotAngle += dt * M_PI/(rotSpeed * -1 * rotSim);
+
+	model = glm::translate(glm::mat4(1.0f), parent->getLocVector());
+	model = glm::rotate(model, (currRotAngle), glm::vec3(0,1,0));
+	model = glm::translate(model, glm::vec3(0,0,radius));
+	model = glm::rotate(model, (-currRotAngle), glm::vec3(0,1,0));
 
 	model = glm::scale(model, glm::vec3(scale, scale, scale));
 }

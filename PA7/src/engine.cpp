@@ -51,6 +51,9 @@ bool Engine::Initialize(std::string * fileNames)
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
 
+  // set counter to be 0
+  counter = 0;
+  currObject = "Sun";
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -100,7 +103,6 @@ void Engine::Run()
 	m_graphics->Update(m_DT);
 	m_graphics->Render();
 
-
 	//bool to see if we clicked a button this frame
 	bool buttonClicked = false;
 
@@ -114,11 +116,34 @@ void Engine::Run()
 	ImGui::Begin("Controls");
 
         ImGui::SetWindowPos(ImVec2(50,50), true);
-	ImGui::SetWindowSize(ImVec2(250,50), true);
+	ImGui::SetWindowSize(ImVec2(300,100), true);
 
-	ImGui::Text("Current .obj file: ");
+	
+
+	if(ImGui::Button("<-")){
+		lastObject();
+	}
 	ImGui::SameLine();
-	ImGui::Text(m_graphics->objName.c_str());
+	ImGui::Text("Current Focus: ");
+	ImGui::SameLine();
+	ImGui::Text(currObject.c_str());
+	ImGui::SameLine();
+	if(ImGui::Button("->")){
+		nextObject();
+	}
+
+	if(ImGui::Button("<-")){
+
+	}
+	ImGui::SameLine();
+	ImGui::Text("Simulation Speed: ");
+	ImGui::SameLine();
+	ImGui::Text("to do oops");
+	ImGui::SameLine();
+	if(ImGui::Button("->")){
+
+	}
+
 
     	ImGui::End();
 
@@ -147,6 +172,80 @@ void Engine::Keyboard()
       m_running = false;
     }
   }
+}
+
+void Engine::nextObject(){
+
+	if(counter + 1 < 10){
+		counter++;
+	}else{
+		counter = 0;
+	}	
+	setObject();
+
+}
+
+void Engine::lastObject(){
+
+	if(counter - 1 >= 0){
+		counter--;
+	}else{
+		counter = 9;
+	}	
+	setObject();
+
+}
+
+void Engine::setObject(){
+
+
+	switch(counter){
+
+		case 0:
+			m_graphics->getCamera()->setFocus("Sun", glm::vec3(0.0, 500.0, -5.0));
+			currObject = "Sun";
+		break;
+
+		case 1:
+			m_graphics->getCamera()->setFocus("Mercury", glm::vec3(0.0, 40.0, -16.0));
+			currObject = "Mercury";
+		break;
+		case 2:
+			m_graphics->getCamera()->setFocus("Venus", glm::vec3(0.0, 20.0, -48.0));
+			currObject = "Venus";
+		break;
+
+		case 3:
+			m_graphics->getCamera()->setFocus("Earth", glm::vec3(0.0, 20.0, -48.0));
+			currObject = "Earth";
+
+		break;
+		case 4:
+			m_graphics->getCamera()->setFocus("Mars", glm::vec3(0.0, 20.0, -48.0));
+			currObject = "Mars";
+		break;
+		case 5:
+			m_graphics->getCamera()->setFocus("Jupiter", glm::vec3(0.0, 40.0, -68.0));
+			currObject = "Jupiter";
+		break;
+		case 6:
+			m_graphics->getCamera()->setFocus("Saturn", glm::vec3(0.0, 40.0, -68.0));
+			currObject = "Saturn";
+		break;
+		case 7:
+			m_graphics->getCamera()->setFocus("Uranus", glm::vec3(0.0, 20.0, -48.0));
+			currObject = "Uranus";
+		break;
+		case 8:
+			m_graphics->getCamera()->setFocus("Neptune", glm::vec3(0.0, 20.0, -48.0));
+			currObject = "Neptune";
+		break;
+		case 9:
+			m_graphics->getCamera()->setFocus("Pluto", glm::vec3(0.0, 5.0, -20.0));
+			currObject = "Pluto";
+		break;
+	}
+
 }
 
 unsigned int Engine::getDT()
