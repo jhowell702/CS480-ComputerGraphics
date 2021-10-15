@@ -9,26 +9,26 @@ obj Earth.obj
 
 [Moon]
 Object Moon
-spin 13.367
-rotation 13.367
-radius 0.003
-scale 0.272
-parent none
+spin 27.4
+rotation 0.0748
+radius 0.00257
+scale 0.2724
+parent Earth
 obj Moon.obj
 
 [Mercury]
 Object Mercury
-spin 0.017
-rotation 4.15
+spin 58.8
+rotation 0.241
 radius 0.387
-scale 0.382
+scale 0.383
 parent none
-obj buddha.obj
+obj Mercury.obj
 
 [Venus]
 name Venus
-spin -0.004
-rotation 1.625
+spin -244
+rotation 0.615
 radius 0.723
 scale 0.949
 parent none
@@ -36,7 +36,7 @@ obj Venus.obj
 
 [Mars]
 name Mars
-spin 0.972
+spin 1.03
 rotation 1.881
 radius 1.523
 scale 0.532
@@ -45,25 +45,25 @@ obj Mars.obj
 
 [Phobos]
 name Phobos
-spin 3.134
-rotation 3.134
-radius 0.00004
-scale 0.002
+spin 0.00087
+rotation 0.00087
+radius 0.00006
+scale 0.00177
 parent Mars 
 obj Phobos.obj
 
 [Deimos]
 name Deimos
-spin 0.792
-rotation 0.792
-radius 0.0002
-scale 0.0001
+spin 0.00346
+rotation 0.00346
+radius 0.00016
+scale 0.0.00118
 parent Mars 
 obj Deimos.obj
 
 [Jupiter]
 name Jupiter
-spin 2.414
+spin 0.415
 rotation 11.859
 radius 5.205
 scale 11.209
@@ -72,25 +72,25 @@ obj Jupiter.obj
 
 [Ganymede]
 name Ganymede
-spin 51.041
-rotation 51.041
-radius 0.007
-scale 0.413
+spin 0.01959
+rotation 0.01959
+radius 0.00716
+scale 0.41301
 parent Jupiter 
 obj Ganymede.obj
 
 [Callisto]
 name Callisto
-spin 3.134
-rotation 3.134
-radius 0.013
+spin 0.0457
+rotation 29.4
+radius 0.01258
 scale 0.378
 parent Jupiter 
 obj Phobos.obj
 
 [Saturn]
 name Saturn
-spin 2.234
+spin 0.445
 rotation 0.034
 radius 9.582
 scale 9.449
@@ -99,26 +99,26 @@ obj Saturn.obj
 
 [Titan]
 name Titan
-spin 22.904
-rotation 22.904
-radius 0.008
+spin 0.04366
+rotation 0.04366
+radius 0.00817
 scale 0.404
 parent Saturn
 obj Titan.obj
 
 [Rhea]
 name Rhea
-spin 80.832
-rotation 80.832
-radius 0.004
-scale 9.449
+spin 0.01237
+rotation 0.01237
+radius 0.00352
+scale 0.11960
 parent Saturn
 obj Rhea.obj
 
 [Uranus]
 name Uranus
-spin -1.390
-rotation 0.012
+spin -0.72
+rotation 83.7
 radius 19.201
 scale 4.007
 parent none
@@ -126,26 +126,26 @@ obj Uranus.obj
 
 [Oberon]
 name Oberon
-spin 27.126
-rotation 27.126
-radius 0.004
+spin 0.03687
+rotation 0.03687
+radius 0.00390
 scale 0.1194
 parent Uranus
 obj Oberon.obj
 
 [Titania]
 name Titania
-spin 41.948
-rotation 41.948
-radius 0.003
+spin 0.02383
+rotation 0.02383
+radius 0.00291
 scale 0.1235
 parent Uranus
 obj Titania.obj
 
 [Neptune]
 name Neptune
-spin 1.484
-rotation 0.006
+spin 0.673
+rotation 163.7
 radius 30.047
 scale 3.883
 parent none
@@ -153,26 +153,26 @@ obj Neptune.obj
 
 [Triton]
 name Triton
-spin -62.14
-rotation -62.14
-radius 0.003
-scale 0.212
+spin -0.01609
+rotation -0.01609
+radius 0.00237
+scale 0.1061
 parent Neptune
 obj Triton.obj
 
 [Proteus]
 name Proteus
-spin 325.490
-rotation 325.490
-radius 0.001
-scale 0.033
+spin 0.00307
+rotation 0.00307
+radius 0.00079
+scale 0.03323
 parent Neptune
 obj Proteus.obj
 
 [Pluto]
 name Pluto
-spin 0.156
-rotation 0.004
+spin 6.41
+rotation 247.9
 radius 39.481
 scale 0.186
 parent none
@@ -180,19 +180,19 @@ obj Pluto.obj
 
 [Charon]
 name Charon
-spin 57.179
-rotation 57.179
-radius 0.0001
+spin 0.01749
+rotation 0.01749
+radius 0.00013
 scale 0.095
 parent Pluto
 obj Charon.obj
 
 [Nix]
 name Nix
-spin 14.693
-rotation 14.693
-radius 0.0003
-scale 0.004
+spin 0.06806
+rotation 0.06806
+radius 0.00033
+scale 0.0039
 parent Pluto
 obj Nix.obj
 
