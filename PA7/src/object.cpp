@@ -178,7 +178,7 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 
 	//translate model location based on x and z coords as calculated to be on circle
 
-	location = glm::translate(glm::vec3(radius * (glm::cos(currRotAngle)), 0, radius * (glm::sin(currRotAngle))));
+	location = glm::translate(locVector);
 
 	//rotate model matrix at identity matrix for spin
     	model = glm::rotate(location, (currSpinAngle), glm::vec3(0.0, 1.0, 0.0));
@@ -198,6 +198,7 @@ void Object::Update(unsigned int dt, Object * parent, float simSpeed, float rotS
 	model = glm::rotate(model, (currRotAngle), glm::vec3(0,1,0));
 	model = glm::translate(model, glm::vec3(0,0,radius));
 	model = glm::rotate(model, (-currRotAngle), glm::vec3(0,1,0));
+	model = glm::rotate(model, (currSpinAngle), glm::vec3(0,1,0));
 
 	model = glm::scale(model, glm::vec3(scale, scale, scale));
 }

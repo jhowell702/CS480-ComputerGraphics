@@ -23,7 +23,7 @@ parent none
 obj Mercury.obj
 
 Object Venus
-spin -0.004
+spin 116
 rotation 1.625
 radius 1.4
 scale 0.949

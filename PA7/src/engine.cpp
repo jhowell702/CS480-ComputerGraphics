@@ -228,7 +228,7 @@ void Engine::setObject(){
 		break;
 
 		case 1:
-			m_graphics->getCamera()->setFocus("Mercury", glm::vec3(0.0, 40.0, -16.0));
+			m_graphics->getCamera()->setFocus("Mercury", glm::vec3(0.0, 30.0, -16.0));
 			currObject = "Mercury";
 		break;
 		case 2:
@@ -242,7 +242,7 @@ void Engine::setObject(){
 
 		break;
 		case 4:
-			m_graphics->getCamera()->setFocus("Mars", glm::vec3(0.0, 20.0, -48.0));
+			m_graphics->getCamera()->setFocus("Mars", glm::vec3(0.0, 10.0, -48.0));
 			currObject = "Mars";
 		break;
 		case 5:
