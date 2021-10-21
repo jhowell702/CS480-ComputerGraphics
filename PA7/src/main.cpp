@@ -23,7 +23,7 @@ int main(int argc, char **argv)
   }
 
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Tutorial Window Name", 1200, 800);
+  Engine *engine = new Engine("Tutorial Window Name", 1600, 900);
 
   //pass in file names into engine initialization, then graphics, then shader initialization
 

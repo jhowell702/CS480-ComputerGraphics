@@ -9,11 +9,11 @@ Object::Object()
   loadDefaultCube();
 
   name = "Default Cube, no model file name given in command line";
-  Init();
+  Init(NULL);
 
 }
 
-void Object::Init(){
+void Object::Init(aiMesh * mesh){
 
     currRotAngle = 0.0f;
     currSpinAngle = 0.0f;
@@ -36,7 +36,7 @@ void Object::Init(){
    //repeat and make texture coord buffer for use in shaders
    glGenBuffers(1, &TB);
    glBindBuffer(GL_ARRAY_BUFFER, TB);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * TextureCoords.size(), &TextureCoords[0], GL_STATIC_DRAW);
+   glBufferData(GL_ARRAY_BUFFER, mesh->mNumVertices * 3 * sizeof(GLfloat), mesh->mTextureCoords[0], GL_STATIC_DRAW);
 
 }
 
@@ -84,7 +84,7 @@ Object::Object(aiMesh *mesh, unsigned int in_matInd)
 	matInd = in_matInd;
 
 	//default init
-	Init();
+	Init(mesh);
 }
 
 Object::~Object()
@@ -258,7 +258,7 @@ void Object::RenderTextures()
   
   //bind texture coord buffer for shader
   glBindBuffer(GL_ARRAY_BUFFER, TB);
-  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float), 0);
+  glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
  
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IB);
   glDrawElements(GL_TRIANGLES, Indices.size(), GL_UNSIGNED_INT, 0);

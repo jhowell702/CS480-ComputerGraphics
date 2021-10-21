@@ -11,7 +11,7 @@ class Object
     Object(aiMesh *mesh, unsigned int in_matInd);
     ~Object();
 
-    void Init();
+    void Init(aiMesh * mesh);
     void Update(unsigned int dt, float simSpeed, float rotSpeed);
     void Update(unsigned int dt, Object * parent, float simSpeed, float rotSpeed);
     void Render();
