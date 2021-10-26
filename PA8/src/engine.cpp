@@ -20,12 +20,33 @@ Engine::~Engine()
 {
   delete m_window;
   delete m_graphics;
+
+
   m_window = NULL;
   m_graphics = NULL;
 }
 
 bool Engine::Initialize(std::string * fileNames)
 {
+
+////////////////////////////////////////////////////////////////
+
+	broadphase = new btDbvtBroadphase();
+	collisionConfiguration = new btDefaultCollisionConfiguration();
+
+	dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+	solver = new btSequentialImpulseConstraintSolver();
+
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, 
+								collisionConfiguration); 
+
+	dynamicsWorld->setGravity(btVector3(0, -1, 0));
+
+
+
+////////////////////////////////////////////////////////////////
+
   // Start a window
   m_window = new Window();
   if(!m_window->Initialize(m_WINDOW_NAME, &m_WINDOW_WIDTH, &m_WINDOW_HEIGHT))
@@ -36,7 +57,7 @@ bool Engine::Initialize(std::string * fileNames)
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, fileNames))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, fileNames, dynamicsWorld))
   {
     printf("The graphics failed to initialize.\n");
     return false;
@@ -98,9 +119,11 @@ void Engine::Run()
                 m_running = false;
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(m_window->getSDLWindow()))
                 m_running = false;
+
         }
 
         // Update and render the graphics
+	dynamicsWorld->stepSimulation(m_DT, 10);
 	m_graphics->Update(m_DT);
 	m_graphics->Render();
 
@@ -116,41 +139,34 @@ void Engine::Run()
 	//start menu
 	ImGui::Begin("Controls");
 
+	ImGui::Text("Tap WASD to move the cube.");
+
         ImGui::SetWindowPos(ImVec2(50,50), true);
 	ImGui::SetWindowSize(ImVec2(300,100), true);
 
-	
+	if(ImGui::IsKeyReleased(26)){
 
-	if(ImGui::Button("<-")){
-		lastObject();
-	}
-	ImGui::SameLine();
-	ImGui::Text("Current Focus: ");
-	ImGui::SameLine();
-	ImGui::Text(currObject.c_str());
-	ImGui::SameLine();
-	if(ImGui::Button("->")){
-		nextObject();
-	}
+		m_graphics->getCube()->setForce( btVector3(0, 0, .75) );
 
-	if(ImGui::Button("<- ##simdec")){
-		incSimSpeed();
-	}
-	ImGui::SameLine();
-	ImGui::Text("Simulation Speed: ");
-	ImGui::SameLine();
-	ImGui::Text(" %d ", simCounter);
-	ImGui::SameLine();
-	if(ImGui::Button("-> ##siminc")){
-		decSimSpeed();
-	}
+	}else if(ImGui::IsKeyReleased(22)){
 
+		m_graphics->getCube()->setForce( btVector3(0, 0, -.75) );
+
+	}else if(ImGui::IsKeyReleased(4)){
+
+		m_graphics->getCube()->setForce( btVector3(.75, 0, 0) );
+
+	}else if(ImGui::IsKeyReleased(7)){
+
+		m_graphics->getCube()->setForce( btVector3(-.75, 0, 0) );
+
+	}
 
     	ImGui::End();
 
     	ImGui::Render();
 
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
 
@@ -175,28 +191,6 @@ void Engine::Keyboard()
   }
 }
 
-void Engine::nextObject(){
-
-	if(counter + 1 < 11){
-		counter++;
-	}else{
-		counter = 0;
-	}	
-	setObject();
-
-}
-
-void Engine::lastObject(){
-
-	if(counter - 1 >= 0){
-		counter--;
-	}else{
-		counter = 10;
-	}	
-	setObject();
-
-}
-
 void Engine::incSimSpeed(){
 
 	if(simCounter - 1 > -11){
@@ -217,61 +211,7 @@ void Engine::decSimSpeed(){
 	}
 }
 
-void Engine::setObject(){
 
-
-	switch(counter){
-
-		case 0:
-			m_graphics->getCamera()->setFocus("Sun", glm::vec3(0.0, 500.0, -5.0));
-			currObject = "Sun";
-		break;
-
-		case 1:
-			m_graphics->getCamera()->setFocus("Mercury", glm::vec3(0.0, 30.0, -16.0));
-			currObject = "Mercury";
-		break;
-		case 2:
-			m_graphics->getCamera()->setFocus("Venus", glm::vec3(0.0, 20.0, -48.0));
-			currObject = "Venus";
-		break;
-
-		case 3:
-			m_graphics->getCamera()->setFocus("Earth", glm::vec3(0.0, 20.0, -48.0));
-			currObject = "Earth";
-
-		break;
-		case 4:
-			m_graphics->getCamera()->setFocus("Mars", glm::vec3(0.0, 10.0, -48.0));
-			currObject = "Mars";
-		break;
-		case 5:
-			m_graphics->getCamera()->setFocus("Jupiter", glm::vec3(0.0, 40.0, -68.0));
-			currObject = "Jupiter";
-		break;
-		case 6:
-			m_graphics->getCamera()->setFocus("Saturn", glm::vec3(0.0, 40.0, -68.0));
-			currObject = "Saturn";
-		break;
-		case 7:
-			m_graphics->getCamera()->setFocus("Uranus", glm::vec3(0.0, 20.0, -48.0));
-			currObject = "Uranus";
-		break;
-		case 8:
-			m_graphics->getCamera()->setFocus("Neptune", glm::vec3(0.0, 20.0, -48.0));
-			currObject = "Neptune";
-		break;
-		case 9:
-			m_graphics->getCamera()->setFocus("Pluto", glm::vec3(0.0, 5.0, -20.0));
-			currObject = "Pluto";
-		break;
-		case 10:
-			m_graphics->getCamera()->setFocus("Sun", glm::vec3(0.0, 800.0, -5.0));
-			currObject = "Sun Far";
-		break;
-	}
-
-}
 
 unsigned int Engine::getDT()
 {

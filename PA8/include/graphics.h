@@ -14,15 +14,18 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, std::string* fileNames);
+    bool Initialize(int width, int height, std::string* fileNames,     btDiscreteDynamicsWorld *dynamicsWorld);
     void Update(unsigned int dt);
     void Render();
 
-    Object * LoadObjects(std::string fileName);
+    Object * LoadObjects(std::string fileName, btScalar mass, btVector3 startPos, std::string meshType);
     void LoadFromConfig(std::string* fileNames);
     unsigned int * loadTextures(std::string texFileName);
 
     std::string objName;
+
+    Object * getCube(){		std::string cube = "Cube";
+				return m_objects[cube];};
 
     Camera * getCamera(){return m_camera;};
     Object * getObject(std::string name){return m_objects[name];};

@@ -19,10 +19,6 @@ class Engine
     unsigned int getDT();
     long long GetCurrentTimeMillis();
 
-    void nextObject();
-    void lastObject();
-    void setObject();
-
     void incSimSpeed();
     void decSimSpeed();
   
@@ -43,6 +39,12 @@ class Engine
     bool m_running;
 
     bool validObject;
+
+    btBroadphaseInterface *broadphase;
+    btDiscreteDynamicsWorld *dynamicsWorld;
+    btSequentialImpulseConstraintSolver *solver;
+    btCollisionDispatcher *dispatcher;	
+    btDefaultCollisionConfiguration *collisionConfiguration;
 
     int counter;
     std::string currObject;

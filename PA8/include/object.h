@@ -8,14 +8,25 @@ class Object
 {
   public:
     Object();
-    Object(aiMesh *mesh, unsigned int in_matInd);
+    Object(aiMesh *mesh, unsigned int in_matInd, btScalar mass, btVector3 startPos, std::string meshType);
     ~Object();
 
-    void Init();
+    void Init(aiMesh * mesh, btScalar in_mass, btVector3 startPos);
     void Update(unsigned int dt, float simSpeed, float rotSpeed);
     void Update(unsigned int dt, Object * parent, float simSpeed, float rotSpeed);
     void Render();
     void RenderTextures();
+
+    void createComplex(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType);
+
+    void createSphere(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType);
+
+    void createCube(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType);
+
+    void createPlane(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType);
+
+    void setForce(btVector3 force){ 	rigidBody->activate(true);
+					rigidBody->applyCentralImpulse(force); };
 
     void loadDefaultCube();
 
@@ -23,6 +34,11 @@ class Object
     void setSpin(bool newState);
     bool getDir();
     bool getSpin();
+
+    btRigidBody * getRigidBody();
+    btDiscreteDynamicsWorld *dynamicsWorld;
+
+    btScalar mass;
 
     std::string getName();
     std::string getParent(){return parent;};
@@ -68,6 +84,9 @@ class Object
 
     std::vector<unsigned int> textureIDs;
     
+	btCollisionShape *shape;	
+	btDefaultMotionState *shapeMotionState;
+	btRigidBody *rigidBody;
 
     float currSpinAngle;
     float currRotAngle;

@@ -13,7 +13,7 @@ Graphics::~Graphics()
 
 }
 
-bool Graphics::Initialize(int width, int height, std::string* fileNames)
+bool Graphics::Initialize(int width, int height, std::string* fileNames,     btDiscreteDynamicsWorld *dynamicsWorld)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -50,6 +50,13 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
 
   //load all meshes from .obj
   LoadFromConfig(fileNames);
+  for (auto const& x : m_objects)
+  {
+
+	dynamicsWorld->addRigidBody(x.second->getRigidBody(), 1, 1);
+	x.second->dynamicsWorld = dynamicsWorld;
+   }
+
 
    spinSimSpeed = 1500.0f;
    rPSimSpeed = 10000.0f;
@@ -115,6 +122,8 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames)
   return true;
 }
 
+
+
 void Graphics::Update(unsigned int dt)
 {
 
@@ -177,13 +186,14 @@ void Graphics::LoadFromConfig(std::string* fileNames){
 
 	std::string tester;
 	std::string name;
-	float rot;
-	float spin;
-	float radius;
 	float scale;
 	std::string parent;
 	std::string objFileName;
-
+	btScalar mass;
+	btScalar posX;
+	btScalar posY;
+	btScalar posZ;
+	std::string meshType;
 
 	while(!file.eof()){
 	
@@ -191,19 +201,19 @@ void Graphics::LoadFromConfig(std::string* fileNames){
 
 		if(tester.compare("Object") == 0){
 			file >> name;
-			file >> tester >> spin;
-			file >> tester >> rot;
-			file >> tester >> radius;
+			file >> tester >> mass;
+			file >> tester >> posX;
+			file >> tester >> posY;
+			file >> tester >> posZ;
+			btVector3 startPos(posX, posY, posZ);
 			file >> tester >> scale;
+			file >> tester >> meshType;
 			file >> tester >> parent;
 			file >> tester >> objFileName;
 
-			Object * temp = LoadObjects(objFileName);
+			Object * temp = LoadObjects(objFileName, mass, startPos, meshType);
 			temp->setName(name);
-			temp->setSpinSpeed(spin);
-			temp->setRotSpeed(rot);
 			temp->setScale(scale);
-			temp->setRadius(radius);
 			temp->setParent(parent);
 
 	
@@ -217,7 +227,7 @@ void Graphics::LoadFromConfig(std::string* fileNames){
 
 ///////////////////////////////////////////////////////////
 
-Object * Graphics::LoadObjects(std::string fileName){
+Object * Graphics::LoadObjects(std::string fileName, btScalar mass, btVector3 startPos, std::string meshType){
 
 	objName = fileName;
 
@@ -253,7 +263,7 @@ Object * Graphics::LoadObjects(std::string fileName){
 	//for each mesh
 	//for(int i = 0; i < numMeshes; i++){
 			//create a new Object
-			Object * temp = new Object(scene->mMeshes[0], *matInd);
+			Object * temp = new Object(scene->mMeshes[0], *matInd, mass, startPos, meshType);
 			//push back onto list of objects
 			return temp;
 	//}

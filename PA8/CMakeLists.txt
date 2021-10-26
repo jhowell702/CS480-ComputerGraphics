@@ -24,6 +24,7 @@ ENDIF(NOT APPLE)
 INCLUDE_DIRECTORIES(
   "${PROJECT_SOURCE_DIR}/include"
   "${PROJECT_SOURCE_DIR}/include/ImGui"
+  "${PROJECT_SOURCE_DIR}/include/Bullet"
   ${SDL2_INCLUDE_DIR}
   ${GLM_INCLUDE_DIRS}
 )
@@ -46,4 +47,6 @@ add_custom_target("${PROJECT_NAME}_SUCCESSFUL" ALL
                   COMMAND ${CMAKE_COMMAND} -E echo "${CMAKE_CURRENT_BINARY_DIR}"
                  )
 
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OPENGL_LIBRARY} ${SDL2_LIBRARY} ${CMAKE_DL_LIBS} -lassimp)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OPENGL_LIBRARY} ${SDL2_LIBRARY} ${CMAKE_DL_LIBS} -lassimp -I/usr/include/bullet -lBulletDynamics -lBulletSoftBody -lBulletCollision -lLinearMath)
+
+
