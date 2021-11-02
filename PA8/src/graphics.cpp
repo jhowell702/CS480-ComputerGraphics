@@ -115,6 +115,13 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames,     btD
     return false;
   }
 
+  m_ambientProduct = m_shader->GetUniformLocation("ambientProduct");
+  if (m_ambientProduct == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_ambientProduct not found\n");
+    return false;
+  }
+
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -157,6 +164,8 @@ void Graphics::Render()
   // Send in the projection and view to the shader
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+
+  glUniform3fv(m_ambientProduct, 1, GL_FALSE, glm::vec3(1,0,0));
 
   // Render the object
 //  for(Object * model : l_objects){
