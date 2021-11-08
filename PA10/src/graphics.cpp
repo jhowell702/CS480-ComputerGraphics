@@ -58,6 +58,8 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames,     btD
 	x.second->dynamicsWorld = dynamicsWorld;
    }
 
+   this->dynamicsWorld = dynamicsWorld;
+
 
    ambientVec = glm::vec4(.15,.15,.15,1);
    diffuseVec = glm::vec4(.15,.15,.15,1);
@@ -189,6 +191,9 @@ bool Graphics::SetUniforms()
 
 void Graphics::Update(unsigned int dt)
 {
+
+    int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+    std::cout << numManifolds << std::endl;
 
 	m_camera->Update( m_objects[m_camera->getFocus()]->getLocVector() );
 

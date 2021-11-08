@@ -75,6 +75,8 @@ class Graphics
     float rPSimSpeed;
     float rMSimSpeed;
 
+btDiscreteDynamicsWorld *dynamicsWorld;
+
 
     map<std::string, Object * > m_objects;
     std::vector<Object *> l_objects;

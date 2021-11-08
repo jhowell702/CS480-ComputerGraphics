@@ -60,6 +60,7 @@ Object::Object(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3
 	}
 
 
+
 ////////////////////////////////////////////////////////////////////////
 
 	
@@ -467,6 +468,7 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 {
 
 
+
 	btTransform trans;
 	btScalar m[16]; 
 
@@ -481,6 +483,7 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 	locVector.z = trans.getOrigin().getZ();
 
 	if(name.compare("Right_Paddle") == 0){
+
 
   	currSpinAngle += dt * M_PI/10000;
 
