@@ -735,9 +735,12 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o
  ../include/ImGui/imgui.h
  ../include/ImGui/imgui_impl_opengl3.h
  ../include/ImGui/imgui_impl_sdl.h
+ ../include/camera.h
+ ../include/graphics.h
  ../include/graphics_headers.h
  ../include/imconfig.h
  ../include/object.h
+ ../include/shader.h
  /home/jhowell/Code/CS480-Workspace/cs480Howell/PA10/src/object.cpp
  /usr/include/SDL2/SDL.h
  /usr/include/SDL2/SDL_assert.h

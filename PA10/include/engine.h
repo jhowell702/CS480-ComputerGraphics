@@ -49,6 +49,10 @@ class Engine
     std::string currObject;
 
     int simCounter;
+
+    bool shaderType;
+
+    bool gameState;
 };
 
 #endif // ENGINE_H

@@ -4,6 +4,8 @@
 #include <vector>
 #include "graphics_headers.h"
 
+class Graphics;
+
 class Object
 {
   public:
@@ -28,12 +30,12 @@ class Object
     void createCylinder(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType);
 
     void setForce(btVector3 force){ 	rigidBody->activate(true);
-					rigidBody->applyCentralImpulse(force); };
+					rigidBody->applyCentralImpulse(force);
+					rigidBody->activate(false); };
 
     void loadDefaultCube();
 
     void setDir(bool newState);
-    void setSpin(bool newState);
     bool getDir();
     bool getSpin();
 
@@ -47,11 +49,16 @@ class Object
     glm::vec3 getLocVector(){return locVector;};
 
     void setName(std::string set){name = set;};
+    void setSpin(float input){currSpinAngle = input;};
     void setSpinSpeed(float set){spinSpeed = set;};
     void setRotSpeed(float set){rotSpeed = set;};
     void setRadius(float set){radius = set * 40;};
     void setScale(float set){scale = set * 3;};
     void setParent(std::string set){parent = set;};
+    void setGraphics(Graphics * in){m_graphics = in;};
+
+    bool CubeTestBumperCollision();
+    void TestPaddles();
 
     glm::mat4 GetModel();
     glm::mat4 GetLocation();
@@ -66,7 +73,12 @@ class Object
     void IncrementSpinSpeed(int change);
     int GetSpinSpeed();
     
+    bool flip;
     bool hasColor;
+
+    int score;
+    int lives;
+
 
   private:
     std::string name;
@@ -99,9 +111,18 @@ class Object
     float radius;
     float scale;
     std::string parent;
-  
+
+    Graphics * m_graphics;  
 
     unsigned int matInd;
+
+    bool bumper1Touched;
+    bool bumper2Touched;
+    bool bumper3Touched;
+
+    bool rightPaddle;
+    bool leftPaddle;
+
 
 };
 

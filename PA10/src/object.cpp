@@ -1,5 +1,5 @@
 #include "object.h"
-
+#include "graphics.h"
 
 #include <fstream>
 #include <sstream>
@@ -59,7 +59,8 @@ Object::Object(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3
 		createCylinder(mesh, in_matInd, in_mass, startPos, meshType);
 	}
 
-
+	score = 0;
+	lives = 3;
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -279,7 +280,6 @@ void Object::createCube(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, 
 
 void Object::createPlane(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass, btVector3 startPos, std::string meshType){
 
-	std::cout << "plane created" << std::endl;
 
 //temp vec3's to convert from assimp vec3's
 	glm::vec3 tempVec;
@@ -461,13 +461,11 @@ bool Object::getDir(){
 bool Object::getSpin(){
 }
 
-void Object::setSpin(bool newState){
-}
 
 void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 {
 
-
+if(name.compare("Ceiling") != 0){
 
 	btTransform trans;
 	btScalar m[16]; 
@@ -484,8 +482,20 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 
 	if(name.compare("Right_Paddle") == 0){
 
+		if(flip == true){
+			if(!(currSpinAngle + dt * M_PI/100 > 3)){
+  				currSpinAngle += dt * M_PI/100;
+			}else{
+				currSpinAngle = 3;
+			}
+		}else if(flip == false){
+			if(!(currSpinAngle - dt * M_PI/100 < .8)){
+				currSpinAngle -= dt * M_PI/100;
+			}else{
+				currSpinAngle = .8;	
+			}
+		}
 
-  	currSpinAngle += dt * M_PI/10000;
 
 		btVector3 temp = trans.getOrigin();
 		btVector3 orig = temp;
@@ -499,7 +509,122 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 		trans.setOrigin(orig);
 		rigidBody->getMotionState()->setWorldTransform(trans);
 		rigidBody->setMotionState(rigidBody->getMotionState());
+		
+	}else if(name.compare("Left_Paddle") == 0){ 
+
+		if(flip == true){
+			if(!(currSpinAngle - dt * M_PI/100 < -3)){
+  				currSpinAngle -= dt * M_PI/100;
+			}else{
+				currSpinAngle = -3;
+			}
+		}else if(flip == false){
+			if(!(currSpinAngle + dt * M_PI/100 > -.8)){
+				currSpinAngle += dt * M_PI/100;
+			}else{
+				currSpinAngle = -.8;	
+			}
+		}
+
+		btVector3 temp = trans.getOrigin();
+		btVector3 orig = temp;
+		temp.setX(temp.getX() + 1);
+		temp.setZ(temp.getZ() + 1);
+
+		trans.setOrigin(temp);
+    		btQuaternion tempQ;
+		tempQ.setEulerZYX(0,currSpinAngle,0);
+		trans.setRotation(tempQ);
+		trans.setOrigin(orig);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());		
+
+	}else if(name.compare("Cube") == 0){
+		setForce(btVector3(-.1,0,0));
+
+		if(CubeTestBumperCollision()){
+			score += 100;
+			std::cout << "||** Current Score: " << score << " **||" << std::endl;
+		}
+
+		TestPaddles();
+
+		if(locVector.x < -30){
+			btVector3 temp;
+			temp.setX(-15);
+			temp.setY(-10);
+			temp.setZ(25);
+			trans.setOrigin(temp);
+			lives -= 1;
+
+			rigidBody->getMotionState()->setWorldTransform(trans);
+			rigidBody->setMotionState(rigidBody->getMotionState());
+		//-21, 20
+		}
 	}
+
+}
+
+}
+
+bool Object::CubeTestBumperCollision(){
+
+	glm::vec3 bump1 = m_graphics->getObject("Bumper1")->getLocVector();
+	glm::vec3 bump2 = m_graphics->getObject("Bumper2")->getLocVector();
+	glm::vec3 bump3 = m_graphics->getObject("Bumper3")->getLocVector();
+
+
+	if(abs(locVector.x - bump1.x) < 3.75 && abs(locVector.z - bump1.z) < 3.75 && bumper1Touched == false){
+		bumper1Touched = true;
+		setForce(btVector3(.1,0,0));
+		return true;
+	}else { if(abs(locVector.x - bump1.x) > 3.75 || abs(locVector.z - bump1.z) > 3.75){
+		bumper1Touched = false;
+	}};
+
+	if(abs(locVector.x - bump2.x) < 3.75 && abs(locVector.z - bump2.z) < 3.75 && bumper2Touched == false){
+		bumper2Touched = true;
+		return true;
+	}else { if(abs(locVector.x - bump2.x) > 3.75 || abs(locVector.z - bump2.z) > 3.75){
+		bumper2Touched = false;
+	}};
+
+	if(abs(locVector.x - bump3.x) < 3.75 && abs(locVector.z - bump3.z) < 3.75 && bumper3Touched == false){
+		bumper3Touched = true;
+		return true;
+	}else { if(abs(locVector.x - bump3.x) > 3.75 || abs(locVector.z - bump3.z) > 3.75){
+		bumper3Touched = false;
+	}};
+
+	return false;
+}
+
+void Object::TestPaddles(){
+
+	glm::vec3 rPaddle = m_graphics->getObject("Right_Paddle")->getLocVector();
+	bool rPaddleFlipped = m_graphics->getObject("Right_Paddle")->flip;
+
+	if(abs(locVector.x - rPaddle.x) < 4 && abs(locVector.z - rPaddle.z) < 5
+		&& rPaddleFlipped == true && rightPaddle == true){
+		setForce(btVector3(9,0,0));
+		rightPaddle = false;	
+	}else if(abs(locVector.x - rPaddle.x) > 4 || abs(locVector.z - rPaddle.z) > 5
+		|| rPaddleFlipped == false){
+		rightPaddle = true;
+	};
+
+	glm::vec3 lPaddle = m_graphics->getObject("Left_Paddle")->getLocVector();
+	bool lPaddleFlipped = m_graphics->getObject("Left_Paddle")->flip;
+
+	if(abs(locVector.x - lPaddle.x) < 4 && abs(locVector.z - lPaddle.z) < 5
+		&& lPaddleFlipped == true && leftPaddle == true){
+		setForce(btVector3(9,0,0));
+		leftPaddle = false;	
+	}else if(abs(locVector.x - lPaddle.x) > 4 || abs(locVector.z - lPaddle.z) > 5
+		|| lPaddleFlipped == false){
+		leftPaddle = true;
+	};
+
 
 }
 

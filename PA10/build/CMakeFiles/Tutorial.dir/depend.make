@@ -734,9 +734,12 @@ CMakeFiles/Tutorial.dir/src/main.cpp.o: /usr/include/bullet/btBulletDynamicsComm
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/ImGui/imgui.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/ImGui/imgui_impl_opengl3.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/ImGui/imgui_impl_sdl.h
+CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/camera.h
+CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/graphics.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/graphics_headers.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/imconfig.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/object.h
+CMakeFiles/Tutorial.dir/src/object.cpp.o: ../include/shader.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../src/object.cpp
 CMakeFiles/Tutorial.dir/src/object.cpp.o: /usr/include/SDL2/SDL.h
 CMakeFiles/Tutorial.dir/src/object.cpp.o: /usr/include/SDL2/SDL_assert.h

@@ -27,6 +27,7 @@ class Graphics
     Object * getCube(){		std::string cube = "Cube";
 				return m_objects[cube];};
 
+
     Camera * getCamera(){return m_camera;};
     Object * getObject(std::string name){return m_objects[name];};
 
@@ -45,6 +46,16 @@ class Graphics
 
 	void increaseAmbient(){ambientVec.x += .1;ambientVec.y += .1;ambientVec.z += .1;}
 	void decreaseAmbient(){ambientVec.x -= .1;ambientVec.y -= .1;ambientVec.z -= .1;}
+
+	void increaseSpecular(){specularVec.x += .1;specularVec.y += .1;specularVec.z += .1;};
+	void decreaseSpecular(){specularVec.x -= .1;specularVec.y -= .1;specularVec.z -= .1;};
+	
+	void light1on(){diffuseVec = glm::vec4(1,0,0,1);};
+	void light2on(){diffuseVec2 = glm::vec4(0,0,1,1);};
+	void light1off(){diffuseVec = glm::vec4(0,0,0,1);};
+	void light2off(){diffuseVec2 = glm::vec4(0,0,0,1);};
+
+	glm::vec4 getLightPos(){return lightPos;};
 
    int shaderSwitch;
 
@@ -70,6 +81,11 @@ class Graphics
     glm::vec4 specularVec;
     glm::vec4 lightPos;
     float shininess;
+
+    GLint m_diffuseProduct2;
+    GLint m_lightPos2;
+    glm::vec4 lightPos2;
+    glm::vec4 diffuseVec2;
 
     float spinSimSpeed;
     float rPSimSpeed;

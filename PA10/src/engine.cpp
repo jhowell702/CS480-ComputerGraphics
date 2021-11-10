@@ -41,7 +41,7 @@ bool Engine::Initialize(std::string * fileNames)
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, 
 								collisionConfiguration); 
 
-	dynamicsWorld->setGravity(btVector3(0, -1, 0));
+	dynamicsWorld->setGravity(btVector3(-.3, -1, 0));
 
 
 
@@ -76,6 +76,7 @@ bool Engine::Initialize(std::string * fileNames)
   counter = 0;
   simCounter = 5;
   currObject = "Sun";
+  gameState = true;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -92,6 +93,9 @@ bool Engine::Initialize(std::string * fileNames)
 
     ImGui_ImplSDL2_InitForOpenGL(m_window->getSDLWindow(), m_window->getContext());
     ImGui_ImplOpenGL3_Init(glsl_version);
+
+    m_graphics->getObject("Right_Paddle")->setSpin(1);
+    m_graphics->getObject("Left_Paddle")->setSpin(-1);
 
   // No errors
   return true;
@@ -137,53 +141,45 @@ void Engine::Run()
 	ImGui::NewFrame();
 	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 
+	if(m_graphics->getObject("Cube")->lives <= 0){
+		gameState = false;
+	}
+
+	if(gameState){
+
 	//start menu
 	ImGui::Begin("Controls");
 
         ImGui::SetWindowPos(ImVec2(50,50), true);
-	ImGui::SetWindowSize(ImVec2(500,150), true);
+	ImGui::SetWindowSize(ImVec2(350,300), true);
 
-	ImGui::Text("Tap WASD to move the cube.");
-
-	ImGui::Text("x: %d z: %d", counter, counter2);
-
-	if(ImGui::Button("Move Light Right")){
-		buttonClicked = true;
-		m_graphics->incLight();
-		counter += 20;
-	}
-
+	ImGui::Text("Lives Remaining: ");
 	ImGui::SameLine();
+	ImGui::Text("%d", m_graphics->getObject("Cube")->lives);
 
-	if(ImGui::Button("Move Light Left")){
-		buttonClicked = true;
-		m_graphics->decLight();
-		counter -= 50;
-	}
-
-
-	if(ImGui::Button("Move Light Up")){
-		buttonClicked = true;
-		m_graphics->decLightZ();
-		counter2 += 50;
-	}
-
+	ImGui::Text("Score: ");
 	ImGui::SameLine();
+	ImGui::Text("%d", m_graphics->getObject("Cube")->score);
 
-	if(ImGui::Button("Move Light Down")){
-		buttonClicked = true;
-		m_graphics->incLightZ();
-		counter2 -= 50;
+	ImGui::Text("Controls:");
+	ImGui::Text("Q - Left Paddle");
+	ImGui::Text("E - Right Paddle");
+	ImGui::Text("Space - Starter or:");
+	ImGui::SameLine();
+	if(ImGui::Button("Starter Button")){
+		m_graphics->getObject("Starter")->setForce(btVector3(22,0,0));
+	}else{
+		m_graphics->getObject("Starter")->setForce(btVector3(-1,0,0));
 	}
 
-	if(ImGui::Button("Raise Light Height")){
-		m_graphics->incLightY();
+	ImGui::Text("Lighting:");
+
+	if(!m_graphics->shaderSwitch){
+		ImGui::Text("Shader: Vertex   |");
+	}else{
+		ImGui::Text("Shader: Fragment |");
 	}
 	ImGui::SameLine();
-	if(ImGui::Button("Lower Light Height")){
-		m_graphics->decLightY();
-	}
-
 	if(ImGui::Button("Switch Shaders")){
 		if(m_graphics->shaderSwitch != 0){
 			m_graphics->shaderSwitch = 0;
@@ -193,19 +189,66 @@ void Engine::Run()
 		m_graphics->reverseLights();
 		m_graphics->SetUniforms();
 	}
+
+
+	ImGui::Text("Ambient");
 	ImGui::SameLine();
-	if(ImGui::Button("Increase Ambient")){
-		m_graphics->increaseAmbient();
-	}
-	ImGui::SameLine();
-	if(ImGui::Button("Decrease Ambient")){
+	if(ImGui::Button("-##AmbientMinus")){
 		m_graphics->decreaseAmbient();
 	}
+	ImGui::SameLine();
+	if(ImGui::Button("+##AmbientPlus")){
+		m_graphics->increaseAmbient();
+	}
 
 
 
+	ImGui::Text("Specular");
+	ImGui::SameLine();
+	if(ImGui::Button("-##SpecularPlus")){
+		m_graphics->decreaseSpecular();
+	}
+	ImGui::SameLine();
+	if(ImGui::Button("+##SpecularPlus")){
+		m_graphics->increaseSpecular();
+	}
 
 
+	ImGui::Text("Red Light : ");
+	ImGui::SameLine();
+	if(ImGui::Button("On##RedOn")){
+		m_graphics->light1on();
+	}
+	ImGui::SameLine();
+	if(ImGui::Button("Off##RedOff")){
+		m_graphics->light1off();
+	}
+
+	ImGui::Text("Blue Light: ");
+	ImGui::SameLine();
+	if(ImGui::Button("On##BlueOn")){
+		m_graphics->light2on();
+	}
+	ImGui::SameLine();
+	if(ImGui::Button("Off##BlueOff")){
+		m_graphics->light2off();
+	}
+
+
+
+	if(ImGui::IsKeyDown(20)){
+		
+		m_graphics->getObject("Right_Paddle")->flip = true;
+
+	}else{
+
+		m_graphics->getObject("Right_Paddle")->flip = false;
+	}
+	if(ImGui::IsKeyDown(8)){
+		m_graphics->getObject("Left_Paddle")->flip = true;
+	}else{
+		m_graphics->getObject("Left_Paddle")->flip = false;
+	}
 	if(ImGui::IsKeyReleased(7)){
 
 		m_graphics->getCube()->setForce( btVector3(0, 0, .75) );
@@ -222,9 +265,35 @@ void Engine::Run()
 
 		m_graphics->getCube()->setForce( btVector3(-.75, 0, 0) );
 
+	}else if(ImGui::IsKeyReleased(44)){
+
+		m_graphics->getObject("Starter")->setForce(btVector3(22,0,0));
+
 	}
 
     	ImGui::End();
+
+}else{
+
+	ImGui::Begin(":(");
+
+	ImGui::SetWindowPos(ImVec2(400,200), true);
+	ImGui::SetWindowSize(ImVec2(350,300), true);
+
+	ImGui::Text("Game Over");
+	ImGui::Text("Score: ");
+	ImGui::SameLine();
+	ImGui::Text("%d", m_graphics->getObject("Cube")->score);
+	if(ImGui::Button("New Game")){
+		gameState = true;
+		m_graphics->getObject("Cube")->score = 0;
+		m_graphics->getObject("Cube")->lives = 3;
+	}
+
+	ImGui::End();
+
+}
+
 
     	ImGui::Render();
 
@@ -252,8 +321,6 @@ void Engine::Keyboard()
     }
   }
 }
-
-
 
 
 unsigned int Engine::getDT()

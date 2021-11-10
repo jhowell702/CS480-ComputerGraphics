@@ -8,21 +8,22 @@ meshType plane
 parent none
 obj floor.obj
 
+
 Object Cube
 mass 1
-posX 0
-posY 5
-posZ 0
+posX -15
+posY -8
+posZ 25
 scale 1
-meshType cube 1 1 1 0
+meshType sphere
 parent none
-obj boxattempt2.obj
+obj Earth.obj
 
 Object Backboard
 mass 0
-posX 44
+posX 42
 posY -2
-posZ 0
+posZ -5
 scale 1
 meshType cube .9 10 20 0
 parent none
@@ -50,19 +51,19 @@ obj leftwall.obj
 
 Object Angled_Wall
 mass 0
-posX 30.5
+posX 32
 posY -8
-posZ 18.5
+posZ 20
 scale 1
-meshType cube 10 10 .9 .4
+meshType cube 10 10 .9 .65
 parent none
 obj angledwall.obj
 
 Object Inside_Wall
 mass 0
-posX -10
+posX -6
 posY -8
-posZ 17
+posZ 19.75
 scale 1
 meshType cube 30 10 .9 0
 parent none
@@ -70,9 +71,9 @@ obj insidewall.obj
 
 Object Right_Wall
 mass 0
-posX -19
+posX -16
 posY -8
-posZ 22.5
+posZ 26
 scale 1
 meshType cube 40 10 .9 0
 parent none
@@ -80,7 +81,7 @@ obj rightwall.obj
 
 Object Bumper1
 mass 0
-posX -10
+posX -5
 posY -8
 posZ -3
 scale 1
@@ -92,7 +93,7 @@ Object Bumper2
 mass 0
 posX 10
 posY -8
-posZ 7
+posZ 8
 scale 1
 meshType cylinder
 parent none
@@ -110,9 +111,9 @@ obj bumper.obj
 
 Object Left_Paddle_Wall
 mass 0
-posX -20
+posX -17.5
 posY -8
-posZ 9
+posZ 12
 scale 1
 meshType cube 9.5 1 .85 -.8
 parent none
@@ -120,9 +121,9 @@ obj paddlewall.obj
 
 Object Right_Paddle_Wall
 mass 0
-posX -20
+posX -16.5
 posY -8
-posZ -17
+posZ -20
 scale 1
 meshType cube 9.5 1 .85 .8
 parent none
@@ -130,7 +131,7 @@ obj paddlewall.obj
 
 Object Right_Paddle
 mass 0
-posX -22
+posX -24.75
 posY -8
 posZ -12
 scale 1
@@ -140,9 +141,9 @@ obj paddle.obj
 
 Object Left_Paddle
 mass 0
-posX -22
+posX -24.75
 posY -8
-posZ 4
+posZ 4.75
 scale 1
 meshType cube 5 1 .9 -.8
 parent none
@@ -150,11 +151,21 @@ obj paddle.obj
 
 
 Object Starter
-mass 0
-posX -30
-posY -8
-posZ 20
+mass 1
+posX -25
+posY -7.5
+posZ 23.4
 scale 1
-meshType cube 4 2 2 0
+meshType cube 6 2 2 0
+parent none
+obj starter.obj
+
+Object StarterCatcher
+mass 0
+posX -36
+posY -8
+posZ 25
+scale 1
+meshType cube 10 10 1.25 1.55
 parent none
 obj starter.obj

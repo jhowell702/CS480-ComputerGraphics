@@ -60,11 +60,15 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames,     btD
 
    this->dynamicsWorld = dynamicsWorld;
 
+   m_objects["Cube"]->getRigidBody()->setFriction(.05);
 
    ambientVec = glm::vec4(.15,.15,.15,1);
-   diffuseVec = glm::vec4(.15,.15,.15,1);
+   diffuseVec = glm::vec4(1,0,0,1);
    specularVec = glm::vec4(.6,.6,.6,1);
-   lightPos = glm::vec4(0,100,0,1);
+   lightPos = glm::vec4(-100,100,100,1);
+
+   diffuseVec2 = glm::vec4(0,0,1,1);
+   lightPos2 = glm::vec4(500,100,-350,1);
 
    shininess = 1.0f;
 
@@ -181,6 +185,20 @@ bool Graphics::SetUniforms()
     return false;
   }
 
+  m_lightPos2 = m_shader->GetUniformLocation("lightLocation2", shaderSwitch);
+  if (m_ambientProduct == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_lightLocation2 not found\n");
+    return false;
+  }
+
+  m_diffuseProduct2 = m_shader->GetUniformLocation("diffuseProduct2", shaderSwitch);
+  if (m_ambientProduct == INVALID_UNIFORM_LOCATION) 
+  {
+    printf("m_diffuseProduct2 not found\n");
+    return false;
+  }
+
   m_shininess = m_shader->GetUniformLocation("shininess", shaderSwitch);
   if (m_shininess == INVALID_UNIFORM_LOCATION) 
   {
@@ -191,9 +209,6 @@ bool Graphics::SetUniforms()
 
 void Graphics::Update(unsigned int dt)
 {
-
-    int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
-    std::cout << numManifolds << std::endl;
 
 	m_camera->Update( m_objects[m_camera->getFocus()]->getLocVector() );
 
@@ -235,6 +250,9 @@ void Graphics::Render()
   glUniform4fv(m_lightPos, 1, glm::value_ptr(lightPos));
 
   glUniform1f(m_shininess, shininess);
+
+  glUniform4fv(m_diffuseProduct2, 1, glm::value_ptr(diffuseVec2));
+  glUniform4fv(m_lightPos2, 1, glm::value_ptr(lightPos2));
 
   // Render the object
 //  for(Object * model : l_objects){
@@ -297,7 +315,7 @@ void Graphics::LoadFromConfig(std::string* fileNames){
 			temp->setName(name);
 			temp->setScale(scale);
 			temp->setParent(parent);
-
+			temp->setGraphics(this);
 	
 			m_objects.insert(pair<std::string,Object *>(name, temp));			
 

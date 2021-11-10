@@ -359,6 +359,8 @@ commandLineLoader.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA10/src/object.cpp
 object.h
 /home/jhowell/Code/CS480-Workspace/cs480Howell/PA10/src/object.h
+graphics.h
+/home/jhowell/Code/CS480-Workspace/cs480Howell/PA10/src/graphics.h
 fstream
 -
 sstream

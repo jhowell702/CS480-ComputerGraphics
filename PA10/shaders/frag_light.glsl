@@ -16,6 +16,9 @@
 	  uniform vec4 specularProduct;
 	  uniform vec4 lightLocation;
 	  uniform float shininess;
+
+	  uniform vec4 lightLocation2;
+	  uniform vec4 diffuseProduct2;
           
           void main(void)
           {

@@ -26,7 +26,7 @@ bool Camera::Initialize(int w, int h)
                                  5000.0f); //Distance to the far plane, 
 
   focusObject = "Cube";
-  cameraLoc = glm::vec3(-10.0, 16.0, 0.0);
+  cameraLoc = glm::vec3(-20.0, 50.0, 0.0);
 
   return true;
 }
