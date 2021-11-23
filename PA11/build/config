@@ -1,0 +1,144 @@
+Object Floor
+mass 0
+posX 0
+posY -10
+posZ 0
+scale 1
+meshType cube 60 .5 11 0
+parent none
+obj floor.obj
+
+Object Gutter_Right
+mass 0
+posX 0
+posY -12
+posZ 12.75
+scale 1
+meshType cube 60 1 1 0
+parent none
+obj gutter.obj
+
+Object Gutter_Left
+mass 0
+posX 0
+posY -12
+posZ -12.75
+scale 1
+meshType cube 60 1 1 0
+parent none
+obj gutter.obj
+
+Object Wall_Right
+mass 0
+posX 0
+posY -10
+posZ 15.75
+scale 1
+meshType cube 60 10 1 0
+parent none
+obj wall.obj
+
+Object Wall_Left
+mass 0
+posX 0
+posY -10
+posZ -15.75
+scale 1
+meshType cube 60 10 1 0
+parent none
+obj wall.obj
+
+Object Backboard2
+mass 0
+posX 104
+posY -10.25
+posZ 0
+scale 1
+meshType cube 32 40 100 0
+parent none
+obj backboard.obj
+
+Object Backboard
+mass 0
+posX 104
+posY -22.25
+posZ 0
+scale 1
+meshType cube 32 40 100 0
+parent none
+obj backboard.obj
+
+Object Backboard_Left
+mass 0
+posX 65
+posY -5
+posZ -15.75
+scale 1
+meshType cube 10 20 1 0
+parent none
+obj backboardwall.obj
+
+Object Backboard_Left2
+mass 0
+posX 65
+posY -12
+posZ -15.75
+scale 1
+meshType cube 1 1 1 0
+parent none
+obj backboardwall.obj
+
+Object Backboard_Right
+mass 0
+posX 65
+posY -5
+posZ 15.75
+scale 1
+meshType cube 10 20 1 0
+parent none
+obj backboardwall.obj
+
+Object Backboard_Right2
+mass 0
+posX 65
+posY -12
+posZ 15.75
+scale 1
+meshType cube 1 1 1 0
+parent none
+obj backboardwall.obj
+
+Object Backboard_Roof
+mass 0
+posX 65.5
+posY .25
+posZ 0
+scale 1
+meshType cube 1 1 1 0
+parent none
+obj backboardRoof.obj
+
+Object Backboard_Bottom
+mass 0
+posX 65
+posY -15
+posZ 0
+scale 1
+meshType cube 20 1 30 0
+parent none
+obj backboardRoof.obj
+
+Object Cube
+mass 1
+posX -55
+posY 0
+posZ 0
+scale 1
+meshType sphere
+parent none
+obj Earth.obj
+
+
+
+
+
