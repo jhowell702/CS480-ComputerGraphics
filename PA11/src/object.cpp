@@ -18,8 +18,7 @@ void Object::Init(aiMesh * mesh, btScalar in_mass, btVector3 startPos){
     currRotAngle = 0.0f;
     currSpinAngle = 0.0f;
 
-//    rotSpeed = 1500;
-//    spinSpeed = 1000;
+    launched = false;
 
     location = glm::mat4(1.0f);
 
@@ -176,7 +175,7 @@ void Object::createCylinder(aiMesh *mesh, unsigned int in_matInd, btScalar in_ma
 
 /////////////////////////////////////////
 
-    shape = new btCylinderShape(btVector3(2.5,3,2.5));
+    shape = new btCylinderShape(btVector3(1.5,3,1.5));
 
     btQuaternion rotation;
     rotation.setEulerZYX(0,0,0);
@@ -452,13 +451,186 @@ void Object::loadDefaultCube(){
 
 }
 
-void Object::setDir(bool newState){
-}
+void Object::resetPos(){
 
-bool Object::getDir(){
-}
+	if(name == "Cube"){
 
-bool Object::getSpin(){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(-55,0,0);
+
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+
+		launched = false;
+
+	}else if(name == "Penguin1"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(40,-6,0);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin2"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(45,-6,5);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin3"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(45,-6,-5);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin4"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(50,-6,-5);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin5"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(50,-6,0);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin6"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(50,-6,5);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin7"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(55,-6,-9);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin8"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(55,-6,-2);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin9"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(55,-6,2);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}else if(name == "Penguin10"){
+		btTransform trans;
+		rigidBody->getMotionState()->getWorldTransform(trans);
+
+		btVector3 temp = btVector3(55,-6,9);
+
+    		btQuaternion rotation;
+    		rotation.setEulerZYX(0,0,0);
+
+		trans.setRotation(rotation);
+		trans.setOrigin(temp);
+		rigidBody->getMotionState()->setWorldTransform(trans);
+		rigidBody->setMotionState(rigidBody->getMotionState());
+
+		rigidBody->setLinearVelocity(btVector3(0,0,0));
+		rigidBody->setAngularVelocity(btVector3(0,0,0));
+	}
+
 }
 
 

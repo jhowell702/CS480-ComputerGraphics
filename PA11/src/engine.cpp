@@ -41,7 +41,7 @@ bool Engine::Initialize(std::string * fileNames)
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, 
 								collisionConfiguration); 
 
-	dynamicsWorld->setGravity(btVector3(0, 0, 0));
+	dynamicsWorld->setGravity(btVector3(0, -1, 0));
 
 
 
@@ -149,21 +149,29 @@ void Engine::Run()
 	ImGui::Begin("Controls");
 
         ImGui::SetWindowPos(ImVec2(50,50), true);
-	ImGui::SetWindowSize(ImVec2(350,300), true);
-
-	ImGui::Text("Lives Remaining: ");
-	ImGui::SameLine();
-	ImGui::Text("%d", m_graphics->getObject("Cube")->lives);
-
-	ImGui::Text("Score: ");
-	ImGui::SameLine();
-	ImGui::Text("%d", m_graphics->getObject("Cube")->score);
+	ImGui::SetWindowSize(ImVec2(350,260), true);
 
 	ImGui::Text("Controls:");
-	ImGui::Text("Q - Left Paddle");
-	ImGui::Text("E - Right Paddle");
-	ImGui::Text("Space - Starter or:");
+	ImGui::Text("Use the A and D keys to move the ball left and right.");
+	ImGui::Text("Press the W key to throw the ball");
 
+	
+	if(m_graphics->getCube()->getLocVector().y < -10.25){
+		ImGui::Text("Reset ball position: Press S | ");
+		ImGui::SameLine();
+		if(ImGui::Button("Ball Reset")){
+			m_graphics->getCube()->resetPos();
+		}
+		ImGui::Text("Full Reset: Press R | ");
+		ImGui::SameLine();
+		if(ImGui::Button("Full Reset")){
+			m_graphics->getCube()->resetPos();
+			for(int x = 1; x < 11; x++){
+				m_graphics->getObject("Penguin" + to_string(x))->resetPos();
+			}
+		}
+
+	}
 
 	ImGui::Text("Lighting:");
 
@@ -230,25 +238,37 @@ void Engine::Run()
 
 
 	if(ImGui::IsKeyReleased(7)){
-
-		m_graphics->getCube()->setForce( btVector3(5, 0, 0) );
-		dynamicsWorld->setGravity(btVector3(.25, -1, 0));
-
+		if(m_graphics->getCube()->launched != true){
+			m_graphics->getCube()->setForce( btVector3(0, 0, .75) );
+		}
 	}else if(ImGui::IsKeyReleased(4)){
-
-		m_graphics->getCube()->setForce( btVector3(0, 0, -.75) );
-
+		if(m_graphics->getCube()->launched != true){
+			m_graphics->getCube()->setForce( btVector3(0, 0, -.75) );
+		}
 	}else if(ImGui::IsKeyReleased(26)){
 
-		m_graphics->getCube()->setForce( btVector3(.75, 0, 0) );
+		m_graphics->getCube()->setForce( btVector3(9, 0, 0) );
+		m_graphics->getCube()->launched = true;
+
 
 	}else if(ImGui::IsKeyReleased(22)){
+		if(m_graphics->getCube()->getLocVector().y < -10.25){
+			m_graphics->getCube()->resetPos();
 
-		m_graphics->getCube()->setForce( btVector3(-.75, 0, 0) );
-
+		}
+	}else if(ImGui::IsKeyReleased(21)){
+		if(m_graphics->getCube()->getLocVector().y < -10.25){
+			m_graphics->getCube()->resetPos();
+			for(int x = 1; x < 11; x++){
+				m_graphics->getObject("Penguin" + to_string(x))->resetPos();
+			}
+		}
 	}
 
+
+
     	ImGui::End();
+
 
 }else{
 

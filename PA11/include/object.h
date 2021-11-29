@@ -35,9 +35,7 @@ class Object
 
     void loadDefaultCube();
 
-    void setDir(bool newState);
-    bool getDir();
-    bool getSpin();
+
 
     btRigidBody * getRigidBody();
     btDiscreteDynamicsWorld *dynamicsWorld;
@@ -75,9 +73,12 @@ class Object
     
     bool flip;
     bool hasColor;
+    bool launched;
 
     int score;
     int lives;
+
+    void resetPos();
 
 
   private:
@@ -99,9 +100,9 @@ class Object
 
     std::vector<unsigned int> textureIDs;
     
-	btCollisionShape *shape;	
-	btDefaultMotionState *shapeMotionState;
-	btRigidBody *rigidBody;
+    btCollisionShape *shape;	
+    btDefaultMotionState *shapeMotionState;
+    btRigidBody *rigidBody;
 
     float currSpinAngle;
     float currRotAngle;
@@ -116,12 +117,7 @@ class Object
 
     unsigned int matInd;
 
-    bool bumper1Touched;
-    bool bumper2Touched;
-    bool bumper3Touched;
 
-    bool rightPaddle;
-    bool leftPaddle;
 
 
 };
