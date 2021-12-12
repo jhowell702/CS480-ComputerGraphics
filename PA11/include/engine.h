@@ -7,6 +7,7 @@
 #include "window.h"
 #include "graphics.h"
 
+
 class Engine
 {
   public:
@@ -18,7 +19,7 @@ class Engine
     void Keyboard();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
-
+    void textc(string in);
   
   private:
     // Window related variables
@@ -55,6 +56,11 @@ class Engine
     int gameState;
 
     float launchPower;
+
+    int ** scoreboard;
+
+    int roundNum;
+
 };
 
 #endif // ENGINE_H

@@ -53,6 +53,8 @@ class Object
     void setParent(std::string set){parent = set;};
     void setGraphics(Graphics * in){m_graphics = in;};
 
+    bool checkIfFell();
+
     float getRotAngle(){return rotAngle;};
     void setRotAngle(float in){rotAngle = in;};
 

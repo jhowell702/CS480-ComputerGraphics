@@ -32,7 +32,16 @@ See below for shader flag instructions
 Do not run executable from outside of PA11/build folder, file paths to model and shader folder are hard coded in!
 
 ## Bowling Controls
-Tapping the A and D keys will move the ball left and right. Pressing the W key will launch the ball down the lane. When the ball is in the pit behind the penguin pins, pressing S will reset the ball position, and pressing R will reset both the balls and the penguin positions.
+Instructions:
+You have 5 rounds, with 2 balls each round to knock as many penguins into your home as possible to eat later.
+
+Controls:
+A - Move ball left
+D - Move ball right
+Q - Turn ball left
+E - Turn ball right
+W - Hold to launch the ball, the longer held the more speed the ball will launch with
+S - After throwing the ball, press S to recall the ball and move to the next stage
 
 ## Models
 Models (stored as .obj), .mtl, and texture images, should be placed in the models folder in the PA11 project folder.

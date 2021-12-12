@@ -62,8 +62,8 @@ bool Graphics::Initialize(int width, int height, std::string* fileNames,     btD
 
    m_objects["Cube"]->getRigidBody()->setFriction(.05);
 
-   ambientVec = glm::vec4(.15,.15,.15,1);
-   diffuseVec = glm::vec4(1,0,0,1);
+   ambientVec = glm::vec4(.35,.35,.35,1);
+   diffuseVec = glm::vec4(0,.3,.8,1);
    specularVec = glm::vec4(.6,.6,.6,1);
    lightPos = glm::vec4(-100,100,100,1);
 

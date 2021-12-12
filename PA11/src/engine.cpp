@@ -79,8 +79,17 @@ bool Engine::Initialize(std::string * fileNames)
   counter = 0;
   simCounter = 5;
   currObject = "Sun";
-  gameState = true;
+  gameState = -1;
   launchPower = 0;
+  roundNum = 0;
+
+	scoreboard = new int*[5];
+	for(int i = 0; i < 5; ++i){
+		scoreboard[i] = new int[3];
+		for(int c = 0; c < 3; ++c){
+			scoreboard[i][c] = 0;
+		}
+	}
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -97,7 +106,6 @@ bool Engine::Initialize(std::string * fileNames)
 
     ImGui_ImplSDL2_InitForOpenGL(m_window->getSDLWindow(), m_window->getContext());
     ImGui_ImplOpenGL3_Init(glsl_version);
-
 
   // No errors
   return true;
@@ -143,183 +151,152 @@ void Engine::Run()
 	ImGui::NewFrame();
 	const ImGuiViewport* main_viewport = ImGui::GetMainViewport();
 
-	if(m_graphics->getObject("Cube")->lives <= 0){
-		gameState = false;
-	}
 
 
 ////////////////////////////
 
-	if(gameState){
+	if(gameState > 0){
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+
+	window_flags |= ImGuiWindowFlags_NoResize;
+	bool* p_open = NULL;
 
 	//start menu
-	ImGui::Begin("Controls");
+	ImGui::Begin("Controls", p_open, window_flags);
 
         ImGui::SetWindowPos(ImVec2(400,500), true);
-	ImGui::SetWindowSize(ImVec2(350,150), true);
+	ImGui::SetWindowSize(ImVec2(350,120), true);
 
 
 	ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
             if (ImGui::BeginTabBar("Controls Bar", tab_bar_flags))
             {
-                if (ImGui::BeginTabItem("Controls"))
-                {
-
-			ImGui::Text("Controls:");
-			ImGui::Text("Use the A and D keys to move the ball left and right.");
-			ImGui::Text("Press the W key to throw the ball");
-
-                    ImGui::EndTabItem();
-                }
+               
                 if (ImGui::BeginTabItem("Control Widgets"))
                 {
 
-			if(m_graphics->getCube()->getLocVector().y < -10.25){
-			ImGui::Text("Reset ball position: Press S | ");
-			ImGui::SameLine();
-			if(ImGui::Button("Ball Reset")){
-				m_graphics->getCube()->resetPos();
-			}
-			ImGui::Text("Full Reset: Press R | ");
-			ImGui::SameLine();
-			if(ImGui::Button("Full Reset")){
-				m_graphics->getCube()->resetPos();
-				for(int x = 1; x < 11; x++){
-					m_graphics->getObject("Penguin" + to_string(x))->resetPos();
-				}
-			}
-		}
 
 ////////////////////////////////////////////////
-			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, IM_COL32(0, 128, 255, 255));  // Set a background color
+				ImGui::PushStyleColor(ImGuiCol_PlotHistogram, IM_COL32(0, 128, 255, 255));  // Set a background color
 
-			float progress_saturated = IM_CLAMP(launchPower, 0.0f, 20.0f);
-			char buf[32];
-			sprintf(buf, "%d/%d", (int)(progress_saturated), 20);
-			ImGui::ProgressBar(launchPower / 20, ImVec2(0.f, 0.f), buf);
+				float progress_saturated = IM_CLAMP(launchPower, 0.0f, 20.0f);
+				char buf[32];
+				sprintf(buf, "%d/%d", (int)(progress_saturated), 20);
+				ImGui::ProgressBar(launchPower / 20, ImVec2(0.f, 0.f), buf);
+				ImGui::SameLine();
+				ImGui::Text("Launch Power");
+				ImGui::PopStyleColor();
+	
+				btTransform trans;
+				m_graphics->getCube()->getRigidBody()->getMotionState()->getWorldTransform(trans);
+				float currentX = trans.getOrigin().getZ();
+				ImGui::SliderFloat("Position", &currentX, -20.0f, 20.0f, "|", ImGuiSliderFlags_NoInput);
+				float currentRotation = -1 * m_graphics->getCube()->getRotAngle();
+				ImGui::SliderFloat("Rotation", &currentRotation, -20.0f, 20.0f, "|", ImGuiSliderFlags_NoInput);
 
-			ImGui::PopStyleColor();
-
-			btTransform trans;
-			m_graphics->getCube()->getRigidBody()->getMotionState()->getWorldTransform(trans);
-			float currentX = trans.getOrigin().getZ();;
-			ImGui::SliderFloat("slider float", &currentX, -12.0f, 12.0f, "|", ImGuiSliderFlags_NoInput);
 
 //////////////////////////////////////////////////	
 
                     ImGui::EndTabItem();
-
                 }
-                if (ImGui::BeginTabItem("Lighting Controls"))
-                {
-			ImGui::Text("Lighting:");
-			if(!m_graphics->shaderSwitch){
-				ImGui::Text("Shader: Vertex   |");
-			}else{
-				ImGui::Text("Shader: Fragment |");
-			}
-			ImGui::SameLine();
-			if(ImGui::Button("Switch Shaders")){
-				if(m_graphics->shaderSwitch != 0){
-					m_graphics->shaderSwitch = 0;
+
+				if (ImGui::BeginTabItem("Controls")){
+
+					ImGui::Text("Controls:");
+					ImGui::Text("A: Move ball left");
+					ImGui::Text("D: Move ball right");
+					ImGui::Text("W: Hold and release to launch");
+					ImGui::Text("S: To recall ball after throwing");
+
+                    ImGui::EndTabItem();
+                }
+
+		        if (ImGui::BeginTabItem("Lighting Controls"))
+		            {
+				ImGui::Text("Lighting:");
+				if(!m_graphics->shaderSwitch){
+					ImGui::Text("Shader: Vertex   |");
 				}else{
-					m_graphics->shaderSwitch = 1;
+					ImGui::Text("Shader: Fragment |");
 				}
-				m_graphics->reverseLights();
-				m_graphics->SetUniforms();
-			}
+				ImGui::SameLine();
+				if(ImGui::Button("Switch Shaders")){
+					if(m_graphics->shaderSwitch != 0){
+						m_graphics->shaderSwitch = 0;
+					}else{
+						m_graphics->shaderSwitch = 1;
+					}
+					m_graphics->reverseLights();
+					m_graphics->SetUniforms();
+				}
 
 
-			ImGui::Text("Ambient");
-			ImGui::SameLine();
-			if(ImGui::Button("-##AmbientMinus")){
-				m_graphics->decreaseAmbient();
-			}
-			ImGui::SameLine();
-			if(ImGui::Button("+##AmbientPlus")){
-				m_graphics->increaseAmbient();
-			}
+				ImGui::Text("Ambient");
+				ImGui::SameLine();
+				if(ImGui::Button("-##AmbientMinus")){
+					m_graphics->decreaseAmbient();
+				}
+				ImGui::SameLine();
+				if(ImGui::Button("+##AmbientPlus")){
+					m_graphics->increaseAmbient();
+				}
+
+				ImGui::Text("Specular");
+				ImGui::SameLine();
+				if(ImGui::Button("-##SpecularPlus")){
+					m_graphics->decreaseSpecular();
+				}
+				ImGui::SameLine();
+				if(ImGui::Button("+##SpecularPlus")){
+					m_graphics->increaseSpecular();
+				}
+				ImGui::Text("Light 1 : ");
+				ImGui::SameLine();
+				if(ImGui::Button("On##RedOn")){
+					m_graphics->light1on();
+				}
+				ImGui::SameLine();
+				if(ImGui::Button("Off##RedOff")){
+					m_graphics->light1off();
+				}
+
+				ImGui::Text("Light 2: ");
+				ImGui::SameLine();
+				if(ImGui::Button("On##BlueOn")){
+					m_graphics->light2on();
+				}
+				ImGui::SameLine();
+				if(ImGui::Button("Off##BlueOff")){
+					m_graphics->light2off();
+				}
 
 
-
-			ImGui::Text("Specular");
-			ImGui::SameLine();
-			if(ImGui::Button("-##SpecularPlus")){
-				m_graphics->decreaseSpecular();
+				ImGui::EndTabItem();
 			}
-			ImGui::SameLine();
-			if(ImGui::Button("+##SpecularPlus")){
-				m_graphics->increaseSpecular();
-			}
-			ImGui::Text("Red Light : ");
-			ImGui::SameLine();
-			if(ImGui::Button("On##RedOn")){
-				m_graphics->light1on();
-			}
-			ImGui::SameLine();
-			if(ImGui::Button("Off##RedOff")){
-				m_graphics->light1off();
-			}
-
-			ImGui::Text("Blue Light: ");
-			ImGui::SameLine();
-			if(ImGui::Button("On##BlueOn")){
-				m_graphics->light2on();
-			}
-			ImGui::SameLine();
-			if(ImGui::Button("Off##BlueOff")){
-				m_graphics->light2off();
-			}
-
-
-			ImGui::EndTabItem();
-		}
                 ImGui::EndTabBar();
             }
 
 
-/*
-	
-
-
-	if(ImGui::IsKeyReleased(26)){
-		m_graphics->getCube()->launched = true;
-		m_graphics->getCube()->setForce( btVector3(.75, 0, 0) );
-
-	}else if(ImGui::IsKeyReleased(22)){
-		m_graphics->getCube()->setForce( btVector3(-.75, 0, 0) );
-
-
-	}else if(ImGui::IsKeyReleased(4)){
-
-
-		m_graphics->getCube()->setForce( btVector3(0, 0, -.75) );
-
-	}else if(ImGui::IsKeyReleased(7)){
-		m_graphics->getCube()->setForce( btVector3(0, 0, .75) );
-
-
-	}
-
-*/
 
     	ImGui::End();
 ////////////////////////////////////
+	window_flags |= ImGuiWindowFlags_NoScrollbar;
+		ImGui::Begin("Score Menu", p_open, window_flags);
 
-	ImGui::Begin("Score Menu");
-
-        ImGui::SetWindowPos(ImVec2(400,50), true);
-	ImGui::SetWindowSize(ImVec2(350,100), true);
-        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
+        ImGui::SetWindowPos(ImVec2(50,50), true);
+		ImGui::SetWindowSize(ImVec2(425,80), true);
+        static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_SizingFixedFit;
         enum ContentsType { CT_Text, CT_FillButton };
         static int contents_type = CT_Text;
 
-	if (ImGui::BeginTable("table1", 5, flags))
+	if (ImGui::BeginTable("table1", 6, flags))
         {
             // Display headers so we can inspect their interaction with borders.
             // (Headers are not the main purpose of this section of the demo, so we are not elaborating on them too much. See other sections for details)
 
-            
+            ImGui::TableSetupColumn(" ");
             ImGui::TableSetupColumn("Round 1");
             ImGui::TableSetupColumn("Round 2");
             ImGui::TableSetupColumn("Round 3");
@@ -327,23 +304,36 @@ void Engine::Run()
             ImGui::TableSetupColumn("Round 5");
             ImGui::TableHeadersRow();
             
-            for (int row = 0; row < 2; row++)
+            for (int row = 0; row < 3; row++)
             {
                 ImGui::TableNextRow();
-                for (int column = 0; column < 5; column++)
+
+                for (int column = 0; column < 6; column++)
                 {
                     ImGui::TableSetColumnIndex(column);
                     char buf[32];
-                    sprintf(buf, "%d", 0);
-                    if (contents_type == CT_Text)
+
+						if(column == 0){
+						switch(row){
+							case 0:
+								sprintf(buf, "Round Total:"); break;
+							case 1:
+								sprintf(buf, "Ball 1 Score:"); break;
+							case 2:
+								sprintf(buf, "Ball 2 Score:"); break;
+							}
+						}else{
+							sprintf(buf, "%d", scoreboard[column - 1][row]);
+						}
                         ImGui::TextUnformatted(buf);
-                    else if (contents_type)
-                        ImGui::Button(buf, ImVec2(-FLT_MIN, 0.0f));
                 }
             }
             ImGui::EndTable();
         }
 
+	btTransform trans;
+	m_graphics->getCube()->getRigidBody()->getMotionState()->getWorldTransform(trans);
+	float currentX = trans.getOrigin().getZ();
 
 	switch(gameState){
 	
@@ -351,16 +341,21 @@ void Engine::Run()
 	case 1:
 
 		if(ImGui::IsKeyPressed(7) && m_graphics->getCube()->launched != true){
-				m_graphics->getCube()->rightMove = true;
+					m_graphics->getCube()->rightMove = true;
 		}else if(ImGui::IsKeyReleased(7)){
 			m_graphics->getCube()->rightMove = false;
 		}else if(ImGui::IsKeyPressed(4) && m_graphics->getCube()->launched != true){
-			m_graphics->getCube()->leftMove = true;
+				m_graphics->getCube()->leftMove = true;
 		}else if(ImGui::IsKeyReleased(4)){
 				m_graphics->getCube()->leftMove = false;
 		}else if(ImGui::IsKeyPressed(26)){
-
-			launchPower += m_DT * M_PI/100;
+			
+			float test = launchPower + m_DT * M_PI/100;
+			if(test <= 20){
+				launchPower += m_DT * M_PI/100;
+			}else{
+				launchPower = 20;
+			};
 			m_graphics->getCube()->launched = true;
 
 		}else if(ImGui::IsKeyReleased(26)){
@@ -381,15 +376,18 @@ void Engine::Run()
 				}
 			}
 		}else if(ImGui::IsKeyPressed(20)){
-			m_graphics->getCube()->setRotAngle(m_graphics->getCube()->getRotAngle() + 1);
-			cout << "Pressed " << m_graphics->getCube()->getRotAngle() << endl;
-			
+			if(m_graphics->getCube()->getRotAngle() < 20){
+				m_graphics->getCube()->setRotAngle(m_graphics->getCube()->getRotAngle() + 1);
+			}
 		}else if(ImGui::IsKeyPressed(8)){
-			m_graphics->getCube()->setRotAngle(m_graphics->getCube()->getRotAngle() - 1);
-			cout << "Pressed " << m_graphics->getCube()->getRotAngle() << endl;
+			if(m_graphics->getCube()->getRotAngle() > -20){
+				m_graphics->getCube()->setRotAngle(m_graphics->getCube()->getRotAngle() - 1);
+			}
 			
-	}
+		}
 			break;
+
+
 		case 2:
 			//if linear velocity is 0, next gamestate
 			if(m_graphics->getCube()->getRigidBody()->getLinearVelocity().isZero()){
@@ -398,27 +396,50 @@ void Engine::Run()
 			break;
 
 		case 3:
+		{
 		//wait on user input
 			if(ImGui::IsKeyReleased(22)){
 				gameState = 4;
 			}
+			ImGuiWindowFlags window_flags = 0;
+			window_flags |= ImGuiWindowFlags_NoTitleBar;
+			window_flags |= ImGuiWindowFlags_NoScrollbar;
+			window_flags |= ImGuiWindowFlags_NoResize;
+			bool* p_open = NULL;
+			ImGui::Begin("Continue", p_open,window_flags);
+			ImGui::SetWindowPos(ImVec2(800,500), true);
+			ImGui::SetWindowSize(ImVec2(35,35), true);
+        	ImGui::PushButtonRepeat(false);
+        	if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { 
+				gameState = 4;
+			};
+			ImGui::End();
 			break;
-
+		}
 		case 4:
+		{
 		//input received, reset and count
-				m_graphics->getCube()->resetPos();
-				gameState = 5;
+			m_graphics->getCube()->resetPos();
+			int counter = 0;
+			for(int x = 1; x < 11; x++){
+				if(m_graphics->getObject("Penguin" + to_string(x))->checkIfFell()){
+					counter++;
+				}
+			}
+			scoreboard[roundNum][1] = counter;
+			gameState = 5;
 			break;
-
+		}
 		case 5:
+		{
 		//move second ball
-			if(ImGui::IsKeyPressed(7) && m_graphics->getCube()->launched != true){
-					m_graphics->getCube()->rightMove = true;
-			}else if(ImGui::IsKeyReleased(7)){
+		if(ImGui::IsKeyPressed(7) && m_graphics->getCube()->launched != true){
+				m_graphics->getCube()->rightMove = true;
+		}else if(ImGui::IsKeyReleased(7)){
 				m_graphics->getCube()->rightMove = false;
-			}else if(ImGui::IsKeyPressed(4) && m_graphics->getCube()->launched != true){
+		}else if(ImGui::IsKeyPressed(4) && m_graphics->getCube()->launched != true){
 				m_graphics->getCube()->leftMove = true;
-			}else if(ImGui::IsKeyReleased(4)){
+		}else if(ImGui::IsKeyReleased(4)){
 				m_graphics->getCube()->leftMove = false;
 			}else if(ImGui::IsKeyPressed(26)){
 				launchPower += m_DT * M_PI/100;
@@ -432,7 +453,7 @@ void Engine::Run()
 
 				m_graphics->getCube()->setForce( btVector3(x, 0, -z) );
 				launchPower = 0;
-				gameState = 2;
+				gameState = 6;
 
 			}else  if(ImGui::IsKeyPressed(20)){
 				m_graphics->getCube()->setRotAngle(m_graphics->getCube()->getRotAngle() + 1);
@@ -441,54 +462,161 @@ void Engine::Run()
 			}
 
 			break;
-
+		}
 		case 6:
+		{
 		//launched second ball, waiting to stop
 				if(m_graphics->getCube()->getRigidBody()->getLinearVelocity().isZero()){
 				gameState = 7;					
 				}
 			break;
-
+		}
 		case 7:
+		{
 		//ball stopped waiting for user input
-			if(ImGui::IsKeyReleased(21)){
+			if(ImGui::IsKeyReleased(22)){
 				gameState = 8;
-			}else
+			}
+
+				ImGuiWindowFlags window_flags = 0;
+				window_flags |= ImGuiWindowFlags_NoTitleBar;
+				window_flags |= ImGuiWindowFlags_NoScrollbar;
+				window_flags |= ImGuiWindowFlags_NoResize;
+				bool* p_open = NULL;
+				ImGui::Begin("Continue", p_open,window_flags);
+				ImGui::SetWindowPos(ImVec2(800,500), true);
+				ImGui::SetWindowSize(ImVec2(35,35), true);
+		    	ImGui::PushButtonRepeat(false);
+		    	if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { 
+					gameState = 8;
+				};
+				ImGui::End();
+
 			break;
+		}
 		case 8:
+		{
 		//input received
+			int counter = 0;
+			for(int x = 1; x < 11; x++){
+				if(m_graphics->getObject("Penguin" + to_string(x))->checkIfFell()){
+					counter++;
+				}
+			}
 			m_graphics->getCube()->resetPos();
 			for(int x = 1; x < 11; x++){
 				m_graphics->getObject("Penguin" + to_string(x))->resetPos();
 			}
-			break;
+			scoreboard[roundNum][2] = counter - scoreboard[roundNum][1];
+			if(counter != 0){			
+				scoreboard[roundNum][0] = counter;
+			}else{
+				scoreboard[roundNum][0] = scoreboard[roundNum][1];
+			}
 
+			gameState = 1;
+			roundNum++;
+
+			if(roundNum == 5){
+				gameState = 0;
+			}
+
+			break;
+		}
 
 	}
 
 	ImGui::End();
 
-}else{
+}else if(gameState == 0){
 
-	ImGui::Begin(":(");
+	ImGui::Begin("Game Over!");
 
 	ImGui::SetWindowPos(ImVec2(400,200), true);
-	ImGui::SetWindowSize(ImVec2(350,300), true);
+	ImGui::SetWindowSize(ImVec2(350,100), true);
 
-	ImGui::Text("Game Over");
-	ImGui::Text("Score: ");
-	ImGui::SameLine();
-	ImGui::Text("%d", m_graphics->getObject("Cube")->score);
+	int counter = 0;
+	for(int i = 0; i < 5; i++){
+		counter += scoreboard[i][0];
+	}
+
+	string line1 = "Game Over";
+	string line2 = "Number of Penguins You Get to Eat!: " + to_string(counter);
+
+    textc(line1);
+	ImGui::Text(" ");
+    textc(line2);
+	ImGui::Text(" ");
+
+    float font_size = ImGui::GetFontSize() * 8 / 2;
+    ImGui::SameLine(
+        ImGui::GetWindowSize().x / 2 -
+        font_size + (font_size / 2)
+    );
+
 	if(ImGui::Button("New Game")){
-		gameState = true;
-		m_graphics->getObject("Cube")->score = 0;
-		m_graphics->getObject("Cube")->lives = 3;
+		gameState = 1;
+		roundNum = 0;
+		for(int r = 0; r < 3; r++){
+			for(int c = 0; c < 5; c++){
+				scoreboard[r][c] = 0;
+			}
+		}
 	}
 
 	ImGui::End();
 
-	
 
+}else if(gameState == -1){
+	
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoScrollbar;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	bool* p_open = NULL;
+
+	ImGui::Begin("StartGame", p_open, window_flags);
+	ImGui::SetWindowPos(ImVec2(400,200), true);
+	ImGui::SetWindowSize(ImVec2(350,200), true);
+
+	string line1 = "Penguin Bowling";
+	string line2 = "by";
+	string line3 = "Elizabeth Kish, Justin Howell, Noah Doddridge";
+	string line4 = "Start Game by Pressing Enter";
+	string line5 = "Or Click Below";
+	string line6 = "Knock as many penguins into your home";
+    string line7 = "...so you can eat them later";
+
+    textc(line1);
+	ImGui::Text(" ");
+    textc(line2);
+	ImGui::Text(" ");
+    textc(line3);
+	ImGui::Text(" ");
+    textc(line4);
+	ImGui::Text(" ");
+    textc(line5);
+	ImGui::Text(" ");
+
+
+    float font_size = ImGui::GetFontSize() * 10 / 2;
+    ImGui::SameLine(
+        ImGui::GetWindowSize().x / 2 -
+        font_size + (font_size / 2)
+    );
+	if(ImGui::Button("Start Game")){
+		gameState = 1;
+	}
+	if(ImGui::IsKeyPressed(40)){
+				gameState = 1;
+	}
+	ImGui::Text(" ");
+    textc(line6);
+	ImGui::Text(" ");
+    textc(line7);
+	ImGui::Text(" ");
+
+	ImGui::End();	
 
 }
 
@@ -499,6 +627,16 @@ void Engine::Run()
     // Swap to the Window
     m_window->Swap();
   }
+}
+
+void Engine::textc(string in){
+    float font_size = ImGui::GetFontSize() * in.length() / 2;
+    ImGui::SameLine(
+        ImGui::GetWindowSize().x / 2 -
+        font_size + (font_size / 2)
+    );
+
+    ImGui::Text(in.c_str());
 }
 
 void Engine::Keyboard()

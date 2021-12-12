@@ -50,7 +50,7 @@ class Graphics
 	void increaseSpecular(){specularVec.x += .1;specularVec.y += .1;specularVec.z += .1;};
 	void decreaseSpecular(){specularVec.x -= .1;specularVec.y -= .1;specularVec.z -= .1;};
 	
-	void light1on(){diffuseVec = glm::vec4(1,0,0,1);};
+	void light1on(){diffuseVec = glm::vec4(0,.3,.8,1);};
 	void light2on(){diffuseVec2 = glm::vec4(0,0,1,1);};
 	void light1off(){diffuseVec = glm::vec4(0,0,0,1);};
 	void light2off(){diffuseVec2 = glm::vec4(0,0,0,1);};

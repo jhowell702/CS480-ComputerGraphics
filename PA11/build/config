@@ -6,7 +6,18 @@ posZ 0
 scale 1
 meshType cube 60 .5 15 0
 parent none
-obj floor.obj
+obj hiddenbox.obj
+
+Object Water
+mass 0
+posX 107
+posY -17.5
+posZ -33
+scale 1
+meshType sphere
+parent none
+obj water4.obj
+
 
 Object Iceberg
 mass 0
@@ -71,21 +82,21 @@ obj hiddenbox.obj
 
 Object Wall_Right
 mass 0
-posX 0
+posX -30
 posY -10
 posZ 21.25
 scale 1
-meshType cube 60 10 1 0
+meshType cube 90 50 1 0
 parent none
 obj hiddenbox.obj
 
 Object Wall_Left
 mass 0
-posX 0
+posX -30
 posY -10
 posZ -23
 scale 1
-meshType cube 60 10 1 0
+meshType cube 90 50 1 0
 parent none
 obj hiddenbox.obj
 
@@ -130,17 +141,17 @@ posZ 0
 scale 1
 meshType cube 50 1 50 0
 parent none
-obj backboardRoof.obj
+obj hiddenbox.obj
 
 Object Penguin1
 mass .25
 posX 40
-posY 0
+posY -5
 posZ 0
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin2
 mass .25
@@ -150,7 +161,7 @@ posZ 3
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin3
 mass .25
@@ -160,7 +171,7 @@ posZ -5
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin4
 mass .25
@@ -170,7 +181,7 @@ posZ -5
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin5
 mass .25
@@ -180,7 +191,7 @@ posZ 0
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin6
 mass .25
@@ -190,7 +201,7 @@ posZ 5
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin7
 mass .25
@@ -200,7 +211,7 @@ posZ -9
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin8
 mass .25
@@ -210,7 +221,7 @@ posZ -4
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin9
 mass .25
@@ -220,7 +231,7 @@ posZ 4
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 
 Object Penguin10
 mass .25
@@ -230,5 +241,5 @@ posZ 9
 scale 1
 meshType cylinder
 parent none
-obj peguin3.obj
+obj penguin5.obj
 

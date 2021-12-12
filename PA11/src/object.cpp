@@ -478,7 +478,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(40,-6,0);
+		btVector3 temp = btVector3(40,-5,0);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -494,7 +494,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(45,-6,5);
+		btVector3 temp = btVector3(45,-5,5);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -510,7 +510,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(45,-6,-5);
+		btVector3 temp = btVector3(45,-5,-5);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -526,7 +526,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(50,-6,-5);
+		btVector3 temp = btVector3(50,-5,-5);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -542,7 +542,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(50,-6,0);
+		btVector3 temp = btVector3(50,-5,0);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -558,7 +558,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(50,-6,5);
+		btVector3 temp = btVector3(50,-5,5);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -574,7 +574,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(55,-6,-9);
+		btVector3 temp = btVector3(55,-5,-9);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -590,7 +590,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(55,-6,-2);
+		btVector3 temp = btVector3(55,-5,-2);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -606,7 +606,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(55,-6,2);
+		btVector3 temp = btVector3(55,-5,2);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -622,7 +622,7 @@ void Object::resetPos(){
 		btTransform trans;
 		rigidBody->getMotionState()->getWorldTransform(trans);
 
-		btVector3 temp = btVector3(55,-6,9);
+		btVector3 temp = btVector3(55,-5,9);
 
     		btQuaternion rotation;
     		rotation.setEulerZYX(0,0,0);
@@ -665,25 +665,18 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 		trans.setRotation(quat);
 
 		if(leftMove){
-
-			float test2 = dt * M_PI/1000;
-			btVector3 temp = btVector3(-80.0,5.0,
+			btVector3 temp = btVector3(-60.0,5.0,
 			trans.getOrigin().getZ() - (dt * (M_PI/100)));
-
-			cout << trans.getOrigin().getZ() << " " << dt << endl;
-
-			trans.setOrigin(temp);
-
+			if(temp.getZ() > -21){
+				trans.setOrigin(temp);
+			}
 		}else if(rightMove){
-			
-
-			btVector3 temp = btVector3(-80,5,
+			btVector3 temp = btVector3(-60,5,
 			trans.getOrigin().getZ() + (dt * (M_PI/100)));
-
-			trans.setOrigin(temp);
-
+			if(temp.getZ() < 21){
+				trans.setOrigin(temp);
+			}
 		}
-
 			rigidBody->getMotionState()->setWorldTransform(trans);
 			rigidBody->setMotionState(rigidBody->getMotionState());
 
@@ -693,6 +686,19 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 		}
 	}
 
+}
+
+bool Object::checkIfFell(){
+	
+	btTransform trans; 
+	rigidBody->getMotionState()->getWorldTransform(trans);
+
+	if(trans.getOrigin().getY() < -10){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 bool Object::CubeTestBumperCollision(){
