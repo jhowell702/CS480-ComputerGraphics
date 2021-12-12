@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 
+
+
+
 Object::Object()
 {  
   loadDefaultCube();
@@ -15,10 +18,12 @@ Object::Object()
 
 void Object::Init(aiMesh * mesh, btScalar in_mass, btVector3 startPos){
 
-    currRotAngle = 0.0f;
+    rotAngle = 0.0f;
     currSpinAngle = 0.0f;
 
     launched = false;
+    leftMove = false;
+    rightMove = false;
 
     location = glm::mat4(1.0f);
 
@@ -108,7 +113,7 @@ void Object::createSphere(aiMesh *mesh, unsigned int in_matInd, btScalar in_mass
 
 /////////////////////////////////////////
 
-    shape = new btSphereShape(1);
+    shape = new btSphereShape(2.5);
 
     btQuaternion rotation;
     rotation.setEulerZYX(0,0,0);
@@ -175,7 +180,7 @@ void Object::createCylinder(aiMesh *mesh, unsigned int in_matInd, btScalar in_ma
 
 /////////////////////////////////////////
 
-    shape = new btCylinderShape(btVector3(1.5,3,1.5));
+    shape = new btCylinderShape(btVector3(2,5,10));
 
     btQuaternion rotation;
     rotation.setEulerZYX(0,0,0);
@@ -651,6 +656,43 @@ void Object::Update(unsigned int dt, float simSpeed, float rotSim)
 	locVector.z = trans.getOrigin().getZ();
 
 
+	if(name.compare("Cube") == 0){
+
+		if(!launched){
+		float rotation = (rotAngle/180) * M_PI; 
+    		btQuaternion quat;
+    		quat.setRotation(btVector3(0,1,0), rotation);
+		trans.setRotation(quat);
+
+		if(leftMove){
+
+			float test2 = dt * M_PI/1000;
+			btVector3 temp = btVector3(-80.0,5.0,
+			trans.getOrigin().getZ() - (dt * (M_PI/100)));
+
+			cout << trans.getOrigin().getZ() << " " << dt << endl;
+
+			trans.setOrigin(temp);
+
+		}else if(rightMove){
+			
+
+			btVector3 temp = btVector3(-80,5,
+			trans.getOrigin().getZ() + (dt * (M_PI/100)));
+
+			trans.setOrigin(temp);
+
+		}
+
+			rigidBody->getMotionState()->setWorldTransform(trans);
+			rigidBody->setMotionState(rigidBody->getMotionState());
+
+			rigidBody->setLinearVelocity(btVector3(0,0,0));
+			rigidBody->setAngularVelocity(btVector3(0,0,0));
+
+		}
+	}
+
 }
 
 bool Object::CubeTestBumperCollision(){
@@ -670,17 +712,6 @@ void Object::Update(unsigned int dt, Object * parent, float simSpeed, float rotS
 {
 
 
-	//update spin angles depending on boolean
-  	currSpinAngle += dt * M_PI/(spinSpeed * -1 * simSpeed);
-  	currRotAngle += dt * M_PI/(rotSpeed * -1 * rotSim);
-
-	model = glm::translate(glm::mat4(1.0f), parent->getLocVector());
-	model = glm::rotate(model, (currRotAngle), glm::vec3(0,1,0));
-	model = glm::translate(model, glm::vec3(0,0,radius));
-	model = glm::rotate(model, (-currRotAngle), glm::vec3(0,1,0));
-	model = glm::rotate(model, (currSpinAngle), glm::vec3(0,1,0));
-
-	model = glm::scale(model, glm::vec3(scale, scale, scale));
 }
 
 glm::mat4 Object::GetModel()

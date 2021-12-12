@@ -52,7 +52,9 @@ class Engine
 
     bool shaderType;
 
-    bool gameState;
+    int gameState;
+
+    float launchPower;
 };
 
 #endif // ENGINE_H

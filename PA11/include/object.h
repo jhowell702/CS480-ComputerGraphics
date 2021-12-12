@@ -35,8 +35,6 @@ class Object
 
     void loadDefaultCube();
 
-
-
     btRigidBody * getRigidBody();
     btDiscreteDynamicsWorld *dynamicsWorld;
 
@@ -54,6 +52,10 @@ class Object
     void setScale(float set){scale = set * 3;};
     void setParent(std::string set){parent = set;};
     void setGraphics(Graphics * in){m_graphics = in;};
+
+    float getRotAngle(){return rotAngle;};
+    void setRotAngle(float in){rotAngle = in;};
+
 
     bool CubeTestBumperCollision();
     void TestPaddles();
@@ -80,6 +82,8 @@ class Object
 
     void resetPos();
 
+    bool leftMove;
+    bool rightMove;
 
   private:
     std::string name;
@@ -105,7 +109,7 @@ class Object
     btRigidBody *rigidBody;
 
     float currSpinAngle;
-    float currRotAngle;
+    float rotAngle;
 
     float spinSpeed;
     float rotSpeed;

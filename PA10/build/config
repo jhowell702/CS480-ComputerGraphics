@@ -8,6 +8,15 @@ meshType plane
 parent none
 obj floor.obj
 
+Object Iceberg
+mass 0
+posX 0
+posY 0
+posZ 0
+scale 1
+meshType sphere
+parent none
+obj iceberg.obj
 
 Object Cube
 mass 1
@@ -45,7 +54,7 @@ posX 7
 posY -8
 posZ -25
 scale 1
-meshType cube 40 10 .9 0
+meshType cube 40 3 .9 0
 parent none
 obj leftwall.obj
 
@@ -75,7 +84,7 @@ posX -16
 posY -8
 posZ 26
 scale 1
-meshType cube 40 10 .9 0
+meshType cube 40 3 .9 0
 parent none
 obj rightwall.obj
 
