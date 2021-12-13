@@ -166,7 +166,7 @@ void Engine::Run()
 	//start menu
 	ImGui::Begin("Controls", p_open, window_flags);
 
-        ImGui::SetWindowPos(ImVec2(400,500), true);
+        ImGui::SetWindowPos(ImVec2(625,650), true);
 	ImGui::SetWindowSize(ImVec2(350,120), true);
 
 
@@ -407,7 +407,7 @@ void Engine::Run()
 			window_flags |= ImGuiWindowFlags_NoResize;
 			bool* p_open = NULL;
 			ImGui::Begin("Continue", p_open,window_flags);
-			ImGui::SetWindowPos(ImVec2(800,500), true);
+			ImGui::SetWindowPos(ImVec2(1000,650), true);
 			ImGui::SetWindowSize(ImVec2(35,35), true);
         	ImGui::PushButtonRepeat(false);
         	if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { 
@@ -484,7 +484,7 @@ void Engine::Run()
 				window_flags |= ImGuiWindowFlags_NoResize;
 				bool* p_open = NULL;
 				ImGui::Begin("Continue", p_open,window_flags);
-				ImGui::SetWindowPos(ImVec2(800,500), true);
+				ImGui::SetWindowPos(ImVec2(1000,650), true);
 				ImGui::SetWindowSize(ImVec2(35,35), true);
 		    	ImGui::PushButtonRepeat(false);
 		    	if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { 
@@ -532,7 +532,7 @@ void Engine::Run()
 
 	ImGui::Begin("Game Over!");
 
-	ImGui::SetWindowPos(ImVec2(400,200), true);
+	ImGui::SetWindowPos(ImVec2(625,300), true);
 	ImGui::SetWindowSize(ImVec2(350,100), true);
 
 	int counter = 0;
@@ -576,7 +576,7 @@ void Engine::Run()
 	bool* p_open = NULL;
 
 	ImGui::Begin("StartGame", p_open, window_flags);
-	ImGui::SetWindowPos(ImVec2(400,200), true);
+	ImGui::SetWindowPos(ImVec2(625,300), true);
 	ImGui::SetWindowSize(ImVec2(350,200), true);
 
 	string line1 = "Penguin Bowling";

@@ -136,7 +136,7 @@ obj hiddenbox.obj
 Object Backboard_Bottom
 mass 0
 posX 65
-posY -20
+posY -22
 posZ 0
 scale 1
 meshType cube 50 1 50 0
